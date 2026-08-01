@@ -26,6 +26,7 @@ import TermsPage from './pages/TermsPage'
 import AIPolicyPage from './pages/AIPolicyPage'
 import ClientQueryPage from './pages/ClientQueryPage'
 import ClientConfirmReceivePage from './pages/ClientConfirmReceivePage'
+import EnterpriseDashboardPage from './pages/EnterpriseDashboardPage'
 import ModulesSettingsPage from './pages/ModulesSettingsPage'
 import AISettingsPage from './pages/AISettingsPage'
 import BillingPage from './pages/BillingPage'
@@ -53,6 +54,7 @@ export default function App() {
             <Route path="/ai-policy" element={<AIPolicyPage />} />
             <Route path="/q/:token" element={<ClientQueryPage />} />
             <Route path="/c/:token" element={<ClientConfirmReceivePage />} />
+            <Route path="/enterprise/dashboard" element={<EnterpriseDashboardPage />} />
 
             {/* All authenticated routes rendered inside AppShell */}
             <Route
