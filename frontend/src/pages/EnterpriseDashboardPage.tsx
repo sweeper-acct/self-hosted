@@ -121,8 +121,8 @@ function KeyForm({ onSubmit }: { onSubmit: (key: string) => void }) {
         </div>
 
         <p className="text-xs text-gray-400 mt-5 text-center">
-          Your key was emailed when your license was issued.{' '}
-          <a href="mailto:service@sweeper-acct.com.au" className="underline">Contact support</a>
+          Your key was shown on screen when your license was issued.{' '}
+          <a href="mailto:service@sweeper-acct.com.au" className="underline">Contact support</a> if you need it resent.
         </p>
       </div>
     </div>
@@ -140,6 +140,9 @@ export default function EnterpriseDashboardPage() {
   const [topupLoading, setTopupLoading] = useState<number | null>(null)
   const [topupSuccess, setTopupSuccess] = useState(false)
   const [copied, setCopied] = useState<string | null>(null)
+  const [subscribePlan, setSubscribePlan] = useState('growth')
+  const [subscribeInterval, setSubscribeInterval] = useState('monthly')
+  const [subscribeLoading, setSubscribeLoading] = useState(false)
 
   const topupSuccessParam = searchParams.get('topup') === 'success'
 
@@ -200,6 +203,23 @@ export default function EnterpriseDashboardPage() {
     setTopupLoading(null)
   }
 
+  async function handleSubscribe(plan: string, interval: string) {
+    if (!data) return
+    setSubscribeLoading(true)
+    try {
+      const resp = await fetch(`${API_BASE_URL}/api/v1/mcp-billing/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.customer.email, plan, interval }),
+      })
+      const json = await resp.json()
+      if (json.checkout_url) window.location.href = json.checkout_url
+    } catch {
+      // silent — user remains on page
+    }
+    setSubscribeLoading(false)
+  }
+
   function copyToClipboard(text: string, id: string) {
     navigator.clipboard.writeText(text).then(() => {
       setCopied(id)
@@ -237,7 +257,10 @@ export default function EnterpriseDashboardPage() {
   const quota = base + topup
   const pct   = quota > 0 ? Math.min(100, Math.round((used / quota) * 100)) : 0
   const barColor = pct >= 90 ? 'bg-red-500' : pct >= 70 ? 'bg-amber-500' : 'bg-blue-500'
-  const isTrial  = sub.status === 'trial'
+  const isTrial  = sub.plan === 'trial'
+  const trialExhausted = isTrial && used >= quota
+  const trialExpired   = isTrial && sub.period_reset_at ? new Date(sub.period_reset_at) < new Date() : false
+  const trialLocked    = trialExhausted || trialExpired
   const isCancelling = !!sub.cancel_at
 
   return (
@@ -284,6 +307,14 @@ export default function EnterpriseDashboardPage() {
           </div>
         )}
 
+        {/* Trial locked banner */}
+        {trialLocked && (
+          <div className="bg-red-50 border border-red-200 text-red-800 text-sm px-4 py-3 rounded-lg">
+            <strong>Trial {trialExhausted ? 'exhausted' : 'expired'}.</strong>{' '}
+            API calls are blocked. Subscribe below to restore access — your key and usage history are preserved.
+          </div>
+        )}
+
         {/* Plan + runs card */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
           <div className="flex items-start justify-between mb-5">
@@ -326,7 +357,7 @@ export default function EnterpriseDashboardPage() {
             </div>
           </div>
 
-          {/* Top-up section */}
+          {/* Top-up section — paid subscribers only */}
           {!isTrial && (
             <div>
               <div className="text-xs font-medium text-gray-500 mb-2.5 uppercase tracking-wide">Purchase additional runs</div>
@@ -347,6 +378,44 @@ export default function EnterpriseDashboardPage() {
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Subscribe CTA — trial users */}
+          {isTrial && (
+            <div className="mt-5 pt-5 border-t border-gray-100">
+              <div className="text-xs font-medium text-gray-500 mb-1 uppercase tracking-wide">
+                {trialLocked ? 'Subscribe to restore access' : 'Upgrade to full access'}
+              </div>
+              <p className="text-xs text-gray-400 mb-3">
+                Top-up packs are not available during trial. Subscribe to an MCP plan to continue.
+              </p>
+              <div className="flex gap-2 mb-2.5">
+                <select
+                  value={subscribePlan}
+                  onChange={e => setSubscribePlan(e.target.value)}
+                  className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="starter">Starter — 75 runs/mo</option>
+                  <option value="growth">Growth — 180 runs/mo</option>
+                  <option value="scale">Scale — 360 runs/mo</option>
+                </select>
+                <select
+                  value={subscribeInterval}
+                  onChange={e => setSubscribeInterval(e.target.value)}
+                  className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="monthly">Monthly</option>
+                  <option value="annual">Annual (save 2 mo)</option>
+                </select>
+              </div>
+              <button
+                onClick={() => handleSubscribe(subscribePlan, subscribeInterval)}
+                disabled={subscribeLoading}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg py-2.5 transition-colors disabled:opacity-50"
+              >
+                {subscribeLoading ? 'Redirecting to checkout…' : 'Subscribe →'}
+              </button>
             </div>
           )}
         </div>
