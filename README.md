@@ -35,8 +35,8 @@ Sweeper MCP API       (enterprise.sweeper-acct.com.au)
     /mcp/classify     (GST coding — deducts 1 run per statement)
 ```
 
-The backend and worker images are pre-built and pulled from Docker Hub.  
-The frontend is built locally because your Supabase URL is baked into the bundle at build time.
+All five images are pre-built and pulled from Docker Hub — **no local build required**.  
+The frontend reads your Supabase URL from environment variables at container start via `window.__SWEEPER__` (injected by the entrypoint script).
 
 ---
 
@@ -102,14 +102,13 @@ In your Supabase project → **Authentication → URL Configuration**:
 - **Site URL**: your `FRONTEND_URL`
 - **Redirect URLs**: `{FRONTEND_URL}/**`
 
-### 5. Build and start
+### 5. Start services
 
 ```bash
-# Build the frontend (bakes in your Supabase URL)
-docker compose build frontend
-
-# Pull backend images and start everything
+# Pull all images from Docker Hub (no local build needed)
 docker compose pull
+
+# Start everything
 docker compose up -d
 
 # Check status
@@ -184,14 +183,12 @@ Check the [releases page](https://github.com/sweeper-acct/self-hosted/releases) 
 ```bash
 # 1. Apply any new migrations in supabase/migrations/ (SQL Editor)
 
-# 2. Pull and restart
+# 2. Pull new images and restart
 docker compose pull
 docker compose up -d --force-recreate
-
-# 3. Rebuild frontend if a new version was released
-docker compose build frontend
-docker compose up -d frontend
 ```
+
+No local build required — new frontend and backend versions are distributed as updated Docker Hub images.
 
 ---
 
@@ -275,13 +272,14 @@ docker compose logs celery_worker
 
 Ensure Redis is healthy: `docker compose ps redis`
 
-**Frontend shows blank page**
+**Frontend shows blank page or "missing Supabase URL"**
 
-The VITE_* vars were baked in at build time. If you changed `SUPABASE_URL` after building:
+Check that your `.env` has `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` set correctly.  
+The frontend container reads these at startup and writes them to `/env-config.js` — no rebuild needed.  
+After changing `.env`:
 
 ```bash
-docker compose build frontend
-docker compose up -d frontend
+docker compose up -d frontend   # restarts container; entrypoint re-generates env-config.js
 ```
 
 **"quota exceeded" when uploading**

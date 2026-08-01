@@ -9,7 +9,8 @@ version: "3.9"
 #   - A Sweeper MCP API key from enterprise.sweeper-acct.com.au
 #
 # Quick start:
-#   cp .env.example .env          # then fill in all required values
+#   cp .env.example .env          # fill in all required values
+#   docker compose pull           # pull latest images from Docker Hub
 #   docker compose up -d
 #   docker compose logs -f        # watch startup
 
@@ -29,7 +30,7 @@ services:
 
   # ─── Backend API ───────────────────────────────────────────────────────────
   backend:
-    image: sweeper-acct/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:latest
     restart: unless-stopped
     env_file: .env
     environment:
@@ -47,9 +48,9 @@ services:
 
   # ─── Celery worker ─────────────────────────────────────────────────────────
   celery_worker:
-    image: sweeper-acct/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:latest
     restart: unless-stopped
-    command: celery -A celery_app.celery worker --loglevel=info --concurrency=2
+    command: celery -A celery_app.tasks worker --loglevel=info --concurrency=2
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379/0
@@ -59,9 +60,9 @@ services:
 
   # ─── Celery beat (scheduled tasks) ─────────────────────────────────────────
   celery_beat:
-    image: sweeper-acct/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:latest
     restart: unless-stopped
-    command: celery -A celery_app.celery beat --loglevel=info
+    command: celery -A celery_app.tasks beat --loglevel=info
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379/0
@@ -70,24 +71,21 @@ services:
         condition: service_healthy
 
   # ─── Frontend ──────────────────────────────────────────────────────────────
-  # Frontend is built locally because VITE_* env vars are baked into the JS
-  # bundle at build time and differ per deployment (your Supabase URL, etc.).
-  # First run:  docker compose build frontend
-  # Subsequent: docker compose up -d frontend
+  # Pre-built image from Docker Hub. Your Supabase URL and API URL are injected
+  # at container start via environment variables — no local build required.
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-      args:
-        VITE_SUPABASE_URL:      ${VITE_SUPABASE_URL}
-        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
-        VITE_API_BASE_URL:      ${VITE_API_BASE_URL:-http://localhost:8000}
-        VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
+    image: sweeper425/sweeper-frontend:latest
     restart: unless-stopped
     ports:
-      - "${FRONTEND_PORT:-3000}:3000"
+      - "${FRONTEND_PORT:-3000}:8080"
     environment:
-      PORT: "3000"
+      VITE_SUPABASE_URL:      ${VITE_SUPABASE_URL}
+      VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+      VITE_API_BASE_URL:      ${VITE_API_BASE_URL}
+      VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
+      VITE_CONTACT_EMAIL:     ${VITE_CONTACT_EMAIL:-service@sweeper-acct.com.au}
+    depends_on:
+      - backend
 
 volumes:
   redis_data:
