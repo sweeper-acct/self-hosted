@@ -1,0 +1,93 @@
+version: "3.9"
+
+# Sweeper Self-Hosted — docker-compose.yml
+# Full documentation: https://enterprise.sweeper-acct.com.au
+#
+# Prerequisites:
+#   - Docker Engine 24+ and Docker Compose v2
+#   - A Supabase project (cloud or self-hosted) with migrations applied
+#   - A Sweeper MCP API key from enterprise.sweeper-acct.com.au
+#
+# Quick start:
+#   cp .env.example .env          # then fill in all required values
+#   docker compose up -d
+#   docker compose logs -f        # watch startup
+
+services:
+
+  # ─── Redis (job queue) ─────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend API ───────────────────────────────────────────────────────────
+  backend:
+    image: sweeper-acct/sweeper-backend:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+
+  # ─── Celery worker ─────────────────────────────────────────────────────────
+  celery_worker:
+    image: sweeper-acct/sweeper-backend:latest
+    restart: unless-stopped
+    command: celery -A celery_app.celery worker --loglevel=info --concurrency=2
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ─── Celery beat (scheduled tasks) ─────────────────────────────────────────
+  celery_beat:
+    image: sweeper-acct/sweeper-backend:latest
+    restart: unless-stopped
+    command: celery -A celery_app.celery beat --loglevel=info
+    env_file: .env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ─── Frontend ──────────────────────────────────────────────────────────────
+  # Frontend is built locally because VITE_* env vars are baked into the JS
+  # bundle at build time and differ per deployment (your Supabase URL, etc.).
+  # First run:  docker compose build frontend
+  # Subsequent: docker compose up -d frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_SUPABASE_URL:      ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+        VITE_API_BASE_URL:      ${VITE_API_BASE_URL:-http://localhost:8000}
+        VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-3000}:3000"
+    environment:
+      PORT: "3000"
+
+volumes:
+  redis_data:

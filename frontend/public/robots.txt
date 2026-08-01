@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /landing
+Disallow: /
+
+Sitemap: https://sweeper-acct.com.au/sitemap.xml

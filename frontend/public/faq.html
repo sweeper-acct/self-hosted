@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FAQ | Sweeper — AI Workforce for Australian Accounting Firms</title>
+<meta name="description" content="Frequently asked questions about Sweeper — AI-powered BAS and GST workflow for Australian accounting firms." />
+<meta name="robots" content="index, follow" />
+<link rel="icon" type="image/png" href="/Sweeper_2.png" />
+<link rel="canonical" href="https://sweeper-acct.com.au/faq" />
+<style>
+  :root {
+    --bg:           #0F1117;
+    --bg2:          #1A1D27;
+    --border:       #2A2D3A;
+    --accent:       #3D7EF5;
+    --accent-warm:  #F0A500;
+    --text:         #FFFFFF;
+    --text-2:       #8B8FA8;
+    --text-3:       #555869;
+    --green:        #22C55E;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg:          #F4F6FB;
+      --bg2:         #FFFFFF;
+      --border:      #DDE1EE;
+      --accent:      #2563EB;
+      --accent-warm: #D97706;
+      --text:        #0F1117;
+      --text-2:      #4B5068;
+      --text-3:      #9EA3B8;
+      --green:       #16A34A;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:          #F4F6FB;
+    --bg2:         #FFFFFF;
+    --border:      #DDE1EE;
+    --accent:      #2563EB;
+    --accent-warm: #D97706;
+    --text:        #0F1117;
+    --text-2:      #4B5068;
+    --text-3:      #9EA3B8;
+    --green:       #16A34A;
+  }
+  :root[data-theme="dark"] {
+    --bg:           #0F1117;
+    --bg2:          #1A1D27;
+    --border:       #2A2D3A;
+    --accent:       #3D7EF5;
+    --accent-warm:  #F0A500;
+    --text:         #FFFFFF;
+    --text-2:       #8B8FA8;
+    --text-3:       #555869;
+    --green:        #22C55E;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: 760px; margin: 0 auto; padding: 0 28px; }
+
+  /* NAV */
+  nav { border-bottom: 1px solid var(--border); padding: 18px 0; }
+  nav .inner { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 0 28px; }
+  .logo { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; color: var(--text); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 24px; }
+  .nav-link { color: var(--text-2); font-size: 14px; text-decoration: none; transition: color .15s; }
+  .nav-link:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--accent); color: #fff; font-size: 13px; font-weight: 600;
+    padding: 8px 18px; border-radius: 6px; text-decoration: none; transition: opacity .15s;
+  }
+  .nav-cta:hover { opacity: .85; }
+
+  /* HERO */
+  .hero { padding: 64px 0 56px; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px;
+  }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--accent); }
+  .hero h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: normal; line-height: 1.15; letter-spacing: -0.5px;
+    text-wrap: balance; margin-bottom: 16px; color: var(--text);
+  }
+  .hero-sub { font-size: 17px; color: var(--text-2); max-width: 520px; line-height: 1.65; }
+
+  /* FAQ SECTIONS */
+  .faq-section { padding: 52px 0; border-bottom: 1px solid var(--border); }
+  .faq-section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-3); margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: Georgia, serif; font-size: clamp(18px, 2.5vw, 24px); font-weight: normal;
+    line-height: 1.25; letter-spacing: -0.3px; color: var(--text); margin-bottom: 28px;
+  }
+
+  /* ACCORDION */
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+  .faq-item { border-top: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+
+  .faq-question {
+    width: 100%; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 0; text-align: left; color: var(--text);
+    font-size: 15px; font-weight: 600; line-height: 1.4;
+    transition: color .15s;
+  }
+  .faq-question:hover { color: var(--accent); }
+
+  .faq-chevron {
+    flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+    border: 1px solid var(--border); display: flex; align-items: center; justify-content: center;
+    transition: transform .2s, border-color .2s, background .2s;
+    color: var(--text-3);
+  }
+  .faq-item.open .faq-chevron {
+    transform: rotate(45deg);
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .faq-answer {
+    overflow: hidden; max-height: 0;
+    transition: max-height .28s ease, padding .28s ease;
+    padding: 0;
+  }
+  .faq-answer-inner {
+    font-size: 15px; color: var(--text-2); line-height: 1.7;
+    padding-bottom: 20px;
+  }
+  .faq-answer-inner p + p { margin-top: 10px; }
+  .faq-answer-inner strong { color: var(--text); font-weight: 600; }
+  .faq-answer-inner a { color: var(--accent); text-decoration: none; }
+  .faq-answer-inner a:hover { text-decoration: underline; }
+
+  .faq-item.open .faq-answer { max-height: 800px; }
+
+  /* FOOTER */
+  footer { padding: 36px 0; }
+  footer p { font-size: 13px; color: var(--text-3); }
+  footer a { color: var(--text-3); text-decoration: none; transition: color .15s; }
+  footer a:hover { color: var(--text-2); }
+
+  @media (max-width: 600px) {
+    .nav-links .nav-link { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a class="logo" href="/landing">Sweeper<span>.</span></a>
+    <div class="nav-links">
+      <a class="nav-cta" href="https://sweeper-acct.com.au">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Frequently asked questions</div>
+    <h1>Everything you need to know about Sweeper</h1>
+    <p class="hero-sub">Questions from accounting firm partners, managers, and seniors — answered plainly.</p>
+  </div>
+
+  <!-- ── AI WORKFORCE ── -->
+  <section class="faq-section">
+    <div class="section-label">AI Workforce</div>
+    <div class="section-title">What is Sweeper?</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is Sweeper and who is it for?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Sweeper is a <strong>Professional Work Operating System</strong> built specifically for Australian accounting firms. It uses AI to handle the repetitive, high-volume steps in BAS, GST, payroll, tax, and SMSF workflows — while keeping a human accountant in control of every decision that matters.</p>
+          <p>It is designed for firms with one or more partner-led teams, each running independent client portfolios.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What does "AI Workforce" mean?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The AI handles the mechanical parts of accounting work: reading bank statements, classifying transactions, coding GST, and drafting BAS reports. Think of it as a tireless junior that processes the data and flags anything uncertain.</p>
+          <p>Every AI output passes through a <strong>human validation gate</strong> before it can advance. The AI never submits, certifies, or archives anything on its own.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Is Sweeper making accounting decisions on my behalf?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>No. The AI proposes — humans decide. Every transaction classification, GST code, and BAS figure can be reviewed and overridden by your team before anything is certified.</p>
+          <p>Rows the AI is uncertain about are explicitly flagged as <strong>Review Required</strong>. The workflow cannot advance past a review step until a qualified team member approves.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Where is my client data stored?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>All data is stored in <strong>AWS Sydney (ap-southeast-2)</strong> — it never leaves Australia. Sweeper is compliant with the Privacy Act 1988.</p>
+          <p>Each firm's data is isolated at the database level using Row-Level Security (RLS). One firm can never read or write another firm's data, even within the same platform.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── BAS / GST MODULE ── -->
+  <section class="faq-section">
+    <div class="section-label">BAS / GST Module</div>
+    <div class="section-title">Bank statement extraction and GST coding</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What does the BAS / GST Module cover?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The BAS / GST Module handles the full end-to-end BAS preparation workflow: bank statement extraction, transaction-level GST classification, workpaper review, client confirmation, and partner certification — including optional push to Xero or QuickBooks.</p>
+          <p>It covers monthly, quarterly, and annual BAS cycles for cash and accruals basis clients.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What counts as a bank statement read?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>One bank statement read = one PDF or spreadsheet file processed through extraction. A client with two bank accounts in a quarter = two reads.</p>
+          <p>If extraction is re-run on the same file (e.g. after you delete and re-upload), it counts as an additional read. Top-up packs are available if you exceed your monthly quota.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How does GST coding work?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>GST coding follows a three-priority system:</p>
+          <p><strong>1. Custom rules</strong> — rules your firm defines for specific clients (e.g. "Bunnings → Taxable Supplies"). Absolute authority, never overridden by AI.</p>
+          <p><strong>2. Standard rules</strong> — built-in ATO classification rules applied deterministically.</p>
+          <p><strong>3. AI inference</strong> — when no rule matches, the AI classifies the transaction and flags it as <strong>Review Required</strong>. A qualified team member must confirm or override before the workpaper can advance.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── HUMAN VALIDATION GATE ── -->
+  <section class="faq-section">
+    <div class="section-label">Human validation gate</div>
+    <div class="section-title">Why humans stay in control</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is the human validation gate?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Every AI-generated output — bank statement extraction, GST coding, BAS draft — pauses at a human checkpoint before it can advance. The workflow does not proceed until a qualified team member reviews and submits or approves.</p>
+          <p>This is a structural rule, not a preference setting. It cannot be bypassed or disabled.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Who reviews at each step?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The approval chain is configured per team and follows your firm's sign-off structure:</p>
+          <p><strong>Junior</strong> validates the extraction and the GST workpaper. <strong>Senior</strong> reviews the GST workpaper (if enabled). <strong>Manager</strong> approves the BAS draft (if enabled). <strong>Partner</strong> confirms with the client and certifies for lodgement.</p>
+          <p>Steps can be enabled or disabled per team. The Junior validation and Partner certification steps are always required.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── WORKING PAPER SUITE ── -->
+  <section class="faq-section">
+    <div class="section-label">Working paper suite</div>
+    <div class="section-title">Structured workpapers for every BAS step</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is included in the working paper suite?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The suite includes a structured GST workpaper with four tabs: <strong>All Transactions</strong>, <strong>Ready for BAS</strong>, <strong>Non-GST</strong>, and <strong>Review Required</strong>. Each tab shows only the rows relevant to that category, with sortable columns and inline editing.</p>
+          <p>A separate <strong>BAS Summary</strong> workpaper shows the calculated G-field report (G1 through 8A) that feeds into the BAS lodgement. Senior and Manager review pages display the same data from their perspective in the approval chain.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Can I edit transactions in the workpaper?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. Any team member with review access can override GST codes, amounts, and status directly in the workpaper. Every edit is recorded in the immutable case log with the editor's name and timestamp.</p>
+          <p>Overrides by a human always take precedence over the AI's original classification.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CLIENT QUERY PORTAL ── -->
+  <section class="faq-section">
+    <div class="section-label">Client query portal</div>
+    <div class="section-title">Ask clients about specific transactions</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How does the client query portal work?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>During the GST workpaper review, your team can select one or more <strong>Review Required</strong> transactions and send a secure query to the client. The client receives a link — no login or account needed.</p>
+          <p>They see the transaction details (date, merchant, amount) alongside your question, answer in plain text, and can attach receipts or invoices directly from their phone. The response lands immediately in the workpaper's <strong>Client Reply</strong> column.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Can I send multiple queries at once?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. Select multiple transactions in the workpaper and send them as a single batch. The client answers all questions on one page. You can track which batches are pending, answered, or resolved from the case detail screen — and revoke an unanswered batch if needed.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── MAGIC LINK ── -->
+  <section class="faq-section">
+    <div class="section-label">Magic link client access</div>
+    <div class="section-title">Secure access without accounts</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is a magic link?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>A magic link is a time-limited, password-protected URL your team generates for a specific client task. The client clicks the link, enters a simple password (set by you), and accesses only the specific page they need — a query form or a BAS confirmation document.</p>
+          <p>Links expire after 7 days. Clients never create an account, and they can only see the specific content the link was generated for.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CLIENT CONFIRMATION NODE ── -->
+  <section class="faq-section">
+    <div class="section-label">Client confirmation node</div>
+    <div class="section-title">Formalising client sign-off</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is the client confirmation node?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Before the Partner certifies the BAS, the Manager sends the client a <strong>BAS Confirmation PDF</strong> via magic link. The client reviews the BAS figures, signs (or initials) a digital copy, and uploads it back through the same link.</p>
+          <p>The signed document is stored in the case archive automatically. The workflow advances only after the signed document is received — it cannot be skipped.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── EXCEL EXPORT ── -->
+  <section class="faq-section">
+    <div class="section-label">Structured data · Excel export</div>
+    <div class="section-title">Workpaper exports for your records</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What is included in the Excel export?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>The GST workpaper exports as a formatted multi-sheet Excel file: <strong>All Transactions</strong>, <strong>Ready for BAS</strong>, <strong>Non-GST</strong>, and <strong>Review Required</strong> — matching the four tabs in the on-screen workpaper.</p>
+          <p>The BAS Summary exports separately with the full G-field report (G1 through 8A), client details, ABN, period, and GST basis. Both files are available from the case detail screen.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Are exports available to all roles?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. Any team member with access to a case can download the Excel workpaper from the case detail screen. The raw CSV is also available for any team member who needs it for further analysis.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── XERO / QBO ── -->
+  <section class="faq-section">
+    <div class="section-label">Xero / QuickBooks push</div>
+    <div class="section-title">Post BAS journals to your accounting software</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Which accounting software does Sweeper connect to?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Sweeper connects to <strong>Xero</strong> and <strong>QuickBooks Online</strong> via official OAuth integrations. Each firm connects one accounting software. The connection is configured once in Team Settings by the firm owner or admin.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What gets pushed to Xero or QuickBooks?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>After a Partner certifies the BAS, Sweeper posts a <strong>manual journal</strong> to the connected software with all BAS G-field amounts: G1 (total sales), G11 (non-capital purchases), 1A (GST on sales), 1B (GST on purchases), and 8A (net GST position).</p>
+          <p>The push can be automatic on certify (configured per client) or triggered manually. It is always the Partner or Manager who initiates — never automated without human confirmation.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ISOLATED PARTNER WORKSPACES ── -->
+  <section class="faq-section">
+    <div class="section-label">Isolated partner workspaces</div>
+    <div class="section-title">Multi-team structure with data isolation</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          How does partner team isolation work?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Each partner in your firm leads their own team. Each team has its own clients, approval chain, and SLA settings. A team member can only see the clients and cases assigned to their team — there is no cross-team data visibility.</p>
+          <p>Isolation is enforced at the database level using Row-Level Security (RLS), not just the application layer. Even if two partners share the same Sweeper subscription, their data is structurally separated.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Is there a limit on the number of partner teams?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>No. You can create as many partner teams as your firm needs within the team member limit for your plan. A 10-partner firm can have 10 isolated workspaces on a single subscription.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── PLANS & BILLING ── -->
+  <section class="faq-section">
+    <div class="section-label">Plans &amp; Billing</div>
+    <div class="section-title">Subscriptions, upgrades, and limits</div>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Can I change plans mid-cycle?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. <strong>Upgrades</strong> take effect immediately and are charged on a prorated basis — you pay only for the remaining days in the billing cycle at the higher rate.</p>
+          <p><strong>Downgrades</strong> also take effect immediately. The unused time on your higher plan is applied as a credit to your next invoice — it is not refunded to your card.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          What happens if I exceed my bank statement reads?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Extraction will pause for the remainder of the month. You can purchase a <strong>top-up pack</strong> (10, 30, or 50 reads) from the Plan &amp; Billing page to continue immediately without upgrading your plan.</p>
+          <p>Top-up credits carry over to the following month if unused.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Is there a free trial?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>Yes. New firms receive a <strong>7-day free trial</strong> on the Growth plan — no credit card required. The full feature set is available during the trial.</p>
+          <p>Contact <a href="mailto:service@sweeper-acct.com.au">service@sweeper-acct.com.au</a> if you need an extended trial for a larger firm evaluation.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          Are prices inclusive of GST?
+          <span class="faq-chevron" aria-hidden="true">＋</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">
+          <p>No. All listed prices are exclusive of GST. GST is added at checkout and shown on every invoice. A valid tax invoice is issued for every payment — suitable for your firm's own BAS lodgement.</p>
+        </div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="faq-section" style="text-align:center; padding: 60px 0;">
+    <p style="font-size:17px; color:var(--text-2); margin-bottom:24px;">Still have questions? We're happy to walk you through it.</p>
+    <a href="https://sweeper-acct.com.au" style="background:var(--accent-warm);color:#0F1117;font-size:15px;font-weight:700;padding:13px 28px;border-radius:7px;text-decoration:none;display:inline-block;">Get started →</a>
+    <span style="display:block;margin-top:12px;font-size:12px;color:var(--text-3);">Or email us at <a href="mailto:service@sweeper-acct.com.au" style="color:var(--text-3);text-decoration:underline;">service@sweeper-acct.com.au</a></span>
+  </section>
+
+</div>
+
+<div class="container">
+  <footer>
+    <p>© 2026 Sweeper · Data stored in Australia · <a href="/faq">FAQ</a> · <a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Service</a> · <a href="/ai-policy">AI Policy</a></p>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      // close all
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+      });
+      // open clicked if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
