@@ -181,13 +181,13 @@ export default function EnterpriseDashboardPage() {
   }
 
   async function handleTopup(runs: number) {
-    if (!data) return
+    if (!apiKey) return
     setTopupLoading(runs)
     try {
       const resp = await fetch(`${API_BASE_URL}/api/v1/mcp-billing/topup`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: data.customer.email, runs }),
+        headers: { 'Content-Type': 'application/json', 'X-MCP-Key': apiKey },
+        body: JSON.stringify({ runs }),
       })
       const json = await resp.json()
       if (json.checkout_url) {
