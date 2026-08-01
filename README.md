@@ -20,7 +20,7 @@
 ```
 Your server
 ├── frontend          (nginx, React SPA)
-├── backend           (FastAPI — sweeper-acct/sweeper-backend:latest)
+├── backend           (FastAPI — sweeper425/sweeper-backend:latest)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
