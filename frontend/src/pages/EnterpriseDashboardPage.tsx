@@ -45,6 +45,7 @@ const TOPUP_OPTIONS = [
   { runs: 30,  label: '30 MCP runs',  price: 'AU$270' },
   { runs: 50,  label: '50 MCP runs',  price: 'AU$450' },
 ]
+const TOPUP_SUBTITLE = 'Credits added immediately and never expire.'
 
 const SESSION_KEY = 'enterprise_mcp_key'
 
@@ -339,6 +340,7 @@ export default function EnterpriseDashboardPage() {
                   >
                     <div className="text-sm font-semibold text-gray-900">{opt.label}</div>
                     <div className="text-xs text-gray-500 mt-0.5">{opt.price}</div>
+                    <div className="text-xs text-gray-400 mt-1">{TOPUP_SUBTITLE}</div>
                     {topupLoading === opt.runs && (
                       <div className="text-xs text-blue-600 mt-1">Redirecting…</div>
                     )}
