@@ -41,9 +41,9 @@ const PLAN_LABELS: Record<string, string> = {
 }
 
 const TOPUP_OPTIONS = [
-  { runs: 10,  label: '10 runs',  price: 'AU$90' },
-  { runs: 30,  label: '30 runs',  price: 'AU$270' },
-  { runs: 50,  label: '50 runs',  price: 'AU$450' },
+  { runs: 10,  label: '10 MCP runs',  price: 'AU$90' },
+  { runs: 30,  label: '30 MCP runs',  price: 'AU$270' },
+  { runs: 50,  label: '50 MCP runs',  price: 'AU$450' },
 ]
 
 const SESSION_KEY = 'enterprise_mcp_key'
