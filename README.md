@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.0  
+> **Version**: v1.0.2  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,8 +19,8 @@
 
 ```
 Your server
-├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.0)
-├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.0)
+├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.2)
+├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.2)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
@@ -250,7 +250,7 @@ See `.env.example` for all available variables with descriptions.
 | `VITE_SUPABASE_URL` | Yes | Frontend runtime config (same as `SUPABASE_URL`) |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Frontend runtime config |
 | `VITE_API_BASE_URL` | Yes | API URL for browser (your domain) |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.0`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.2`) |
 | `SWEEPER_MCP_KEY` | Yes | License key — enables processing quota and lease validation |
 | `SWEEPER_MCP_ENDPOINT` | No | Override MCP endpoint (default: Sweeper cloud) |
 | `ANTHROPIC_API_KEY` | No | BYOK — only if not using `SWEEPER_MCP_KEY` |
