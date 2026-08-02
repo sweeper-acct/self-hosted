@@ -66,14 +66,16 @@ From **Settings → API**, copy:
 
 ### 2. Apply database migrations
 
-In the Supabase **SQL Editor**, run each `.sql` file from `supabase/migrations/` in filename order.
+In the Supabase **SQL Editor**, paste and run `combined_schema.sql` (included in this release).
 
-All migrations are idempotent — safe to re-run.
+This single file contains all migrations in order — no CLI required, no file ordering to manage.
 
-```sql
--- Tip: paste and run one file at a time, or use the Supabase CLI:
-supabase db push --db-url "postgresql://postgres:[password]@[host]:5432/postgres"
 ```
+Supabase Dashboard → SQL Editor → New query → paste combined_schema.sql → Run
+```
+
+> **Note:** The Supabase CLI (`supabase db push`) is not recommended for initial setup — two
+> migration files share the same timestamp prefix and require the combined file to avoid errors.
 
 ### 3. Configure environment
 
@@ -104,19 +106,25 @@ In your Supabase project → **Authentication → URL Configuration**:
 
 ### 4b. Authenticate with Docker Hub
 
-Your license gives you access to the private Sweeper images.  
-Use the **access token** from your account portal at enterprise.sweeper-acct.com.au:
+The backend image is private. After your enterprise registration, you will receive a Docker Hub
+access token by email. Use it to authenticate before pulling:
 
 ```bash
-echo "YOUR_ACCESS_TOKEN" | docker login -u sweeper425 --password-stdin
+# Linux / macOS / Git Bash
+echo "YOUR_DOCKER_HUB_TOKEN" | docker login -u sweeper425 --password-stdin
+
+# Windows PowerShell
+docker login -u sweeper425 -p "YOUR_DOCKER_HUB_TOKEN"
 ```
+
+> If you have not received your token, contact service@sweeper-acct.com.au with your enterprise account email.
 
 ### 5. Start services
 
 ```bash
 # Pin the version to deploy (matches your license release)
 # Set SWEEPER_VERSION in .env, or prefix the command:
-SWEEPER_VERSION=1.0.0 docker compose pull
+SWEEPER_VERSION=1.0.1 docker compose pull
 
 # Start everything
 docker compose up -d
@@ -191,7 +199,8 @@ For self-hosted Supabase, add a cron job to `pg_dump` and upload to S3 or Backbl
 Check the [releases page](https://github.com/sweeper-acct/self-hosted/releases) for migration notes before upgrading.
 
 ```bash
-# 1. Apply any new migrations in supabase/migrations/ (SQL Editor)
+# 1. Apply the new release's combined_schema.sql in the Supabase SQL Editor
+#    (idempotent — safe to re-run; only new DDL takes effect)
 
 # 2. Update SWEEPER_VERSION in .env to the new release number
 
@@ -211,9 +220,9 @@ Your `SWEEPER_MCP_KEY` controls how many bank statements you can process per mon
 
 | Action | Quota impact |
 |---|---|
-| Upload a bank statement | Free |
-| Extract rows (POST `/mcp/extract`) | Free |
-| GST classify a statement (`/mcp/classify`) | **1 run** |
+| Upload a bank statement PDF | Free |
+| Process a bank statement (extraction + GST classification) | **1 run per PDF** |
+| Re-run GST coding on an existing statement | **1 run** |
 
 Monitor usage and purchase top-ups at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
 
