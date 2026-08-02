@@ -35,7 +35,7 @@ Sweeper MCP API       (enterprise.sweeper-acct.com.au)
     /mcp/classify     (GST coding — deducts 1 run per statement)
 ```
 
-All five images are pre-built and pulled from Docker Hub — **no local build required**.  
+All images are pre-built and pulled from Docker Hub — **no local build required**.  
 The frontend reads your Supabase URL from environment variables at container start via `window.__SWEEPER__` (injected by the entrypoint script).
 
 ---
@@ -66,7 +66,7 @@ From **Settings → API**, copy:
 
 ### 2. Apply database migrations
 
-In the Supabase **SQL Editor**, run each `.sql` file from `supabase/migrations/` in filename order (001 → 053).
+In the Supabase **SQL Editor**, run each `.sql` file from `supabase/migrations/` in filename order.
 
 All migrations are idempotent — safe to re-run.
 
@@ -199,7 +199,7 @@ Your `SWEEPER_MCP_KEY` controls how many bank statements you can process per mon
 | Action | Quota impact |
 |---|---|
 | Upload a bank statement | Free |
-| Extract rows (GET `/mcp/extract`) | Free |
+| Extract rows (POST `/mcp/extract`) | Free |
 | GST classify a statement (`/mcp/classify`) | **1 run** |
 
 Monitor usage and purchase top-ups at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
@@ -225,8 +225,8 @@ See `.env.example` for all available variables with descriptions.
 | `SUPABASE_ANON_KEY` | Yes | Frontend/backend auth |
 | `SUPABASE_SERVICE_KEY` | Yes | Backend admin operations |
 | `SUPABASE_JWT_SECRET` | Yes | JWT verification |
-| `VITE_SUPABASE_URL` | Yes | Frontend build (same as `SUPABASE_URL`) |
-| `VITE_SUPABASE_ANON_KEY` | Yes | Frontend build |
+| `VITE_SUPABASE_URL` | Yes | Frontend runtime config (same as `SUPABASE_URL`) |
+| `VITE_SUPABASE_ANON_KEY` | Yes | Frontend runtime config |
 | `VITE_API_BASE_URL` | Yes | API URL for browser (your domain) |
 | `SWEEPER_MCP_KEY` | Yes | Bank statement processing quota |
 | `SWEEPER_MCP_ENDPOINT` | No | Override MCP endpoint (default: Sweeper cloud) |
@@ -235,7 +235,6 @@ See `.env.example` for all available variables with descriptions.
 | `CORS_ORIGINS` | Yes | Comma-separated allowed origins |
 | `ENCRYPTION_KEY` | No | Fernet key for BYOK key storage |
 | `SENTRY_DSN` | No | Error monitoring |
-| `STRIPE_SECRET_KEY` | No | In-app billing (leave blank if not using) |
 | `REDIS_URL` | No | Defaults to internal Redis container |
 | `BACKEND_PORT` | No | Host port for backend (default: 8000) |
 | `FRONTEND_PORT` | No | Host port for frontend (default: 3000) |
