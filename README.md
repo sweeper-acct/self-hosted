@@ -4,7 +4,7 @@
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
-> Request one at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) — first 50 firms receive a free license.
+> Request one at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) — includes 10 free MCP trial runs.
 
 ---
 
@@ -202,16 +202,16 @@ Your `SWEEPER_MCP_KEY` controls how many bank statements you can process per mon
 | Extract rows (GET `/mcp/extract`) | Free |
 | GST classify a statement (`/mcp/classify`) | **1 run** |
 
-Monitor usage and purchase top-ups at [enterprise.sweeper-acct.com.au/enterprise/dashboard](https://sweeper-acct.com.au/enterprise/dashboard).
+Monitor usage and purchase top-ups at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
 
 | Plan | Runs/month |
 |---|---|
 | Starter | 75 |
 | Growth | 180 |
 | Scale | 360 |
-| Top-up Small | +10 (AU$90, never expire) |
-| Top-up Medium | +30 (AU$270, never expire) |
-| Top-up Large | +50 (AU$450, never expire) |
+| Top-up Small | +10 (AU$110, never expire) |
+| Top-up Medium | +30 (AU$330, never expire) |
+| Top-up Large | +50 (AU$550, never expire) |
 
 ---
 
@@ -285,7 +285,7 @@ docker compose up -d frontend   # restarts container; entrypoint re-generates en
 **"quota exceeded" when uploading**
 
 Your MCP plan's monthly runs are exhausted.  
-Purchase a top-up at [enterprise.sweeper-acct.com.au/enterprise/dashboard](https://sweeper-acct.com.au/enterprise/dashboard).
+Purchase a top-up at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
 
 ---
 
