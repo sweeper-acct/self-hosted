@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: 2026-08-01  
+> **Version**: v1.0  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
