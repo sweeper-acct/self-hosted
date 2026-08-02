@@ -10,9 +10,14 @@ version: "3.9"
 #
 # Quick start:
 #   cp .env.example .env          # fill in all required values
-#   docker compose pull           # pull latest images from Docker Hub
+#   docker login -u sweeper425 --password-stdin  # use the token from your account portal
+#   docker compose pull           # pull pre-built images
 #   docker compose up -d
 #   docker compose logs -f        # watch startup
+#
+# Upgrading:
+#   Set SWEEPER_VERSION=x.y.z in .env, then:
+#   docker compose pull && docker compose up -d
 
 services:
 
@@ -30,13 +35,15 @@ services:
 
   # ─── Backend API ───────────────────────────────────────────────────────────
   backend:
-    image: sweeper425/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
     restart: unless-stopped
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379/0
     ports:
       - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - license_data:/data
     depends_on:
       redis:
         condition: service_healthy
@@ -48,24 +55,28 @@ services:
 
   # ─── Celery worker ─────────────────────────────────────────────────────────
   celery_worker:
-    image: sweeper425/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
     restart: unless-stopped
     command: celery -A celery_app.tasks worker --loglevel=info --concurrency=2
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379/0
+    volumes:
+      - license_data:/data
     depends_on:
       redis:
         condition: service_healthy
 
   # ─── Celery beat (scheduled tasks) ─────────────────────────────────────────
   celery_beat:
-    image: sweeper425/sweeper-backend:latest
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
     restart: unless-stopped
     command: celery -A celery_app.tasks beat --loglevel=info
     env_file: .env
     environment:
       REDIS_URL: redis://redis:6379/0
+    volumes:
+      - license_data:/data
     depends_on:
       redis:
         condition: service_healthy
@@ -74,7 +85,7 @@ services:
   # Pre-built image from Docker Hub. Your Supabase URL and API URL are injected
   # at container start via environment variables — no local build required.
   frontend:
-    image: sweeper425/sweeper-frontend:latest
+    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.0.0}
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-3000}:8080"
@@ -89,3 +100,4 @@ services:
 
 volumes:
   redis_data:
+  license_data:   # persists lease file and installation ID across container restarts

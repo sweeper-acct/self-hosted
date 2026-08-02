@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0  
+> **Version**: v1.0.0  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,8 +19,8 @@
 
 ```
 Your server
-├── frontend          (nginx, React SPA)
-├── backend           (FastAPI — sweeper425/sweeper-backend:latest)
+├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.0)
+├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.0)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
@@ -102,11 +102,21 @@ In your Supabase project → **Authentication → URL Configuration**:
 - **Site URL**: your `FRONTEND_URL`
 - **Redirect URLs**: `{FRONTEND_URL}/**`
 
+### 4b. Authenticate with Docker Hub
+
+Your license gives you access to the private Sweeper images.  
+Use the **access token** from your account portal at enterprise.sweeper-acct.com.au:
+
+```bash
+echo "YOUR_ACCESS_TOKEN" | docker login -u sweeper425 --password-stdin
+```
+
 ### 5. Start services
 
 ```bash
-# Pull all images from Docker Hub (no local build needed)
-docker compose pull
+# Pin the version to deploy (matches your license release)
+# Set SWEEPER_VERSION in .env, or prefix the command:
+SWEEPER_VERSION=1.0.0 docker compose pull
 
 # Start everything
 docker compose up -d
@@ -178,17 +188,20 @@ For self-hosted Supabase, add a cron job to `pg_dump` and upload to S3 or Backbl
 
 ## Upgrading
 
-Check the [releases page](https://github.com/sweeper-acct/self-hosted/releases) for new migration files before upgrading.
+Check the [releases page](https://github.com/sweeper-acct/self-hosted/releases) for migration notes before upgrading.
 
 ```bash
 # 1. Apply any new migrations in supabase/migrations/ (SQL Editor)
 
-# 2. Pull new images and restart
+# 2. Update SWEEPER_VERSION in .env to the new release number
+
+# 3. Pull new images and restart
 docker compose pull
 docker compose up -d --force-recreate
 ```
 
-No local build required — new frontend and backend versions are distributed as updated Docker Hub images.
+To roll back to a previous version, set `SWEEPER_VERSION` in `.env` to the old tag and re-run step 3.  
+No local build required — all versions are pre-built images on Docker Hub.
 
 ---
 
@@ -228,7 +241,8 @@ See `.env.example` for all available variables with descriptions.
 | `VITE_SUPABASE_URL` | Yes | Frontend runtime config (same as `SUPABASE_URL`) |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Frontend runtime config |
 | `VITE_API_BASE_URL` | Yes | API URL for browser (your domain) |
-| `SWEEPER_MCP_KEY` | Yes | Bank statement processing quota |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.0`) |
+| `SWEEPER_MCP_KEY` | Yes | License key — enables processing quota and lease validation |
 | `SWEEPER_MCP_ENDPOINT` | No | Override MCP endpoint (default: Sweeper cloud) |
 | `ANTHROPIC_API_KEY` | No | BYOK — only if not using `SWEEPER_MCP_KEY` |
 | `FRONTEND_URL` | Yes | Auth redirect base URL |
@@ -252,6 +266,20 @@ See `.env.example` for all available variables with descriptions.
 ---
 
 ## Troubleshooting
+
+**License validation failed on startup**
+
+```
+RuntimeError: Sweeper license validation failed. Contact service@sweeper-acct.com.au
+```
+
+Causes and fixes:
+- `SWEEPER_MCP_KEY` is wrong or inactive → confirm the key in your account portal
+- First startup with no lease file → requires outbound HTTPS to `enterprise.sweeper-acct.com.au` (port 443)
+- License expired and grace period (3 days) exhausted → renew at enterprise.sweeper-acct.com.au
+- Firewall blocking outbound → allow outbound to `enterprise.sweeper-acct.com.au:443`
+
+If the backend is running normally, the lease file is at `/data/sweeper_license.json` inside the `license_data` Docker volume. The Celery beat task renews it daily — check `docker compose logs celery_beat` if renewals stop.
 
 **Backend fails to start**
 
