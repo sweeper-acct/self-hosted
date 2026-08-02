@@ -124,7 +124,7 @@ docker login -u sweeper425 -p "YOUR_DOCKER_HUB_TOKEN"
 ```bash
 # Pin the version to deploy (matches your license release)
 # Set SWEEPER_VERSION in .env, or prefix the command:
-SWEEPER_VERSION=1.0.1 docker compose pull
+SWEEPER_VERSION=1.0.2 docker compose pull
 
 # Start everything
 docker compose up -d

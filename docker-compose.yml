@@ -35,7 +35,7 @@ services:
 
   # ─── Backend API ───────────────────────────────────────────────────────────
   backend:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.2}
     restart: unless-stopped
     env_file: .env
     environment:
@@ -55,7 +55,7 @@ services:
 
   # ─── Celery worker ─────────────────────────────────────────────────────────
   celery_worker:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.2}
     restart: unless-stopped
     command: celery -A celery_app.tasks worker --loglevel=info --concurrency=2
     env_file: .env
@@ -69,7 +69,7 @@ services:
 
   # ─── Celery beat (scheduled tasks) ─────────────────────────────────────────
   celery_beat:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.0}
+    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.2}
     restart: unless-stopped
     command: celery -A celery_app.tasks beat --loglevel=info
     env_file: .env
@@ -85,7 +85,7 @@ services:
   # Pre-built image from Docker Hub. Your Supabase URL and API URL are injected
   # at container start via environment variables — no local build required.
   frontend:
-    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.0.1}
+    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.0.2}
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-3000}:8080"
