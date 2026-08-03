@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.3  
+> **Version**: v1.0.4  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,8 +19,8 @@
 
 ```
 Your server
-├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.3)
-├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.3)
+├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.4)
+├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.4)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
@@ -75,7 +75,7 @@ Supabase Dashboard → SQL Editor → New query → paste combined_schema.sql �
 ```
 
 > **Tip:** `combined_schema.sql` is the simplest path — paste once, no CLI required.
-> The Supabase CLI (`supabase db push`) also works; all migration timestamps are unique as of v1.0.3.
+> The Supabase CLI (`supabase db push`) also works; all migration timestamps are unique as of v1.0.4.
 
 ### 3. Configure environment
 
@@ -124,7 +124,7 @@ docker login -u sweeper425 -p "YOUR_DOCKER_HUB_TOKEN"
 ```bash
 # Pin the version to deploy (matches your license release)
 # Set SWEEPER_VERSION in .env, or prefix the command:
-SWEEPER_VERSION=1.0.2 docker compose pull
+SWEEPER_VERSION=1.0.4 docker compose pull
 
 # Start everything
 docker compose up -d
