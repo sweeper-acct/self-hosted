@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.2  
+> **Version**: v1.0.3  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,8 +19,8 @@
 
 ```
 Your server
-├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.2)
-├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.2)
+├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.3)
+├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.3)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
@@ -74,8 +74,8 @@ This single file contains all migrations in order — no CLI required, no file o
 Supabase Dashboard → SQL Editor → New query → paste combined_schema.sql → Run
 ```
 
-> **Note:** The Supabase CLI (`supabase db push`) is not recommended for initial setup — two
-> migration files share the same timestamp prefix and require the combined file to avoid errors.
+> **Tip:** `combined_schema.sql` is the simplest path — paste once, no CLI required.
+> The Supabase CLI (`supabase db push`) also works; all migration timestamps are unique as of v1.0.3.
 
 ### 3. Configure environment
 
