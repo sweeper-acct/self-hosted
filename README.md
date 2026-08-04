@@ -4,7 +4,7 @@
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
-> Request one at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) — includes 10 free MCP trial runs.
+> Request one at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au)
 
 ---
 
@@ -214,29 +214,6 @@ No local build required — all versions are pre-built images on Docker Hub.
 
 ---
 
-## MCP quota
-
-Your `SWEEPER_MCP_KEY` controls how many bank statements you can process per month.
-
-| Action | Quota impact |
-|---|---|
-| Upload a bank statement PDF | Free |
-| Process a bank statement (extraction + GST classification) | **1 run per PDF** |
-| Re-run GST coding on an existing statement | **1 run** |
-
-Monitor usage and purchase top-ups at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
-
-| Plan | Runs/month |
-|---|---|
-| Starter | 75 |
-| Growth | 180 |
-| Scale | 360 |
-| Top-up Small | +10 (AU$110, never expire) |
-| Top-up Medium | +30 (AU$330, never expire) |
-| Top-up Large | +50 (AU$550, never expire) |
-
----
-
 ## Configuration reference
 
 See `.env.example` for all available variables with descriptions.
@@ -250,7 +227,7 @@ See `.env.example` for all available variables with descriptions.
 | `VITE_SUPABASE_URL` | Yes | Frontend runtime config (same as `SUPABASE_URL`) |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Frontend runtime config |
 | `VITE_API_BASE_URL` | Yes | API URL for browser (your domain) |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.2`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.4`) |
 | `SWEEPER_MCP_KEY` | Yes | License key — enables processing quota and lease validation |
 | `SWEEPER_MCP_ENDPOINT` | No | Override MCP endpoint (default: Sweeper cloud) |
 | `ANTHROPIC_API_KEY` | No | BYOK — only if not using `SWEEPER_MCP_KEY` |
