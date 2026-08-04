@@ -227,7 +227,7 @@ See `.env.example` for all available variables with descriptions.
 | `VITE_SUPABASE_URL` | Yes | Frontend runtime config (same as `SUPABASE_URL`) |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Frontend runtime config |
 | `VITE_API_BASE_URL` | Yes | API URL for browser (your domain) |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.4`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.5`) |
 | `SWEEPER_MCP_KEY` | Yes | License key — enables processing quota and lease validation |
 | `SWEEPER_MCP_ENDPOINT` | No | Override MCP endpoint (default: Sweeper cloud) |
 | `ANTHROPIC_API_KEY` | No | BYOK — only if not using `SWEEPER_MCP_KEY` |
