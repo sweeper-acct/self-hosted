@@ -297,8 +297,7 @@ docker compose up -d frontend   # restarts container; entrypoint re-generates en
 
 **"quota exceeded" when uploading**
 
-Your MCP plan's monthly runs are exhausted.  
-Purchase a top-up at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au).
+Your MCP plan's monthly runs are exhausted. Contact [service@sweeper-acct.com.au](mailto:service@sweeper-acct.com.au) to add more runs.
 
 ---
 
