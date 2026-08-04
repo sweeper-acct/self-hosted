@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.4  
+> **Version**: v1.0.5  
 > AI-assisted professional accounting workflow system for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,8 +19,8 @@
 
 ```
 Your server
-├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.4)
-├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.4)
+├── frontend          (nginx, React SPA — sweeper425/sweeper-frontend:1.0.5)
+├── backend           (FastAPI — sweeper425/sweeper-backend:1.0.5)
 ├── celery_worker     (task queue worker — same image)
 ├── celery_beat       (scheduled tasks — same image)
 └── redis             (job queue)
@@ -75,7 +75,7 @@ Supabase Dashboard → SQL Editor → New query → paste combined_schema.sql �
 ```
 
 > **Tip:** `combined_schema.sql` is the simplest path — paste once, no CLI required.
-> The Supabase CLI (`supabase db push`) also works; all migration timestamps are unique as of v1.0.4.
+> The Supabase CLI (`supabase db push`) also works; all migration timestamps are unique as of v1.0.5.
 
 ### 3. Configure environment
 
@@ -124,7 +124,7 @@ docker login -u sweeper425 -p "YOUR_DOCKER_HUB_TOKEN"
 ```bash
 # Pin the version to deploy (matches your license release)
 # Set SWEEPER_VERSION in .env, or prefix the command:
-SWEEPER_VERSION=1.0.4 docker compose pull
+SWEEPER_VERSION=1.0.5 docker compose pull
 
 # Start everything
 docker compose up -d
@@ -312,3 +312,39 @@ Purchase a top-up at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper
 
 *Sweeper is developed and maintained by PIN ME PTY LTD — ABN 94 635 327 365*  
 *Supabase is an open-source project. Sweeper is not affiliated with Supabase.*
+
+---
+
+## Changelog
+
+### v1.0.5 (2026-08-05)
+
+**Database migrations (apply combined_schema.sql or run new migrations in Supabase SQL Editor):**
+
+- Migration 058 — `cases_soft_delete`: soft-delete support for folders (`cases.deleted_at`)
+- Migration 059 — `task_status_semantic`: extended task status constraint to include semantic statuses (`validated`, `reviewed`, `confirmed`, `certified`)
+- Migration 060 — `client_xero_qbo_tenant`: per-client accounting software mapping
+  - `clients.xero_tenant_id`, `clients.xero_tenant_name` — link each client to their own Xero organisation
+  - `clients.qbo_realm_id`, `clients.qbo_company_name` — link each client to their own QuickBooks company
+- Migration 061 — `cases_push_timestamps`: track when BAS journals were pushed to Xero/QBO
+  - `cases.xero_pushed_at`, `cases.qbo_pushed_at`
+
+**Application changes (included in Docker images):**
+
+- Self-hosted registration: enterprise license now grants full `scale` plan access automatically — no 7-day trial expiry applies to self-hosted deployments
+- Xero/QBO integration: per-client org/company mapping; push timestamps prevent duplicate journal entries
+- Partner Groups: team hierarchy with sub-group member management
+- BAS workpaper: sortable columns, CLIENT REPLY column (client query answers inline), Non-GST tab
+- Client query portal: magic link client Q&A with file attachments
+- SLA profiles: per-step deadlines, dashboard traffic-light, auto-backfill on team default set
+- Firm module library: activate/deactivate business modules (BAS/GST, Payroll, Tax, SMSF, ASIC, Advisory)
+
+### v1.0.4 (2026-08-01)
+
+- Self-hosted Docker image packaging; runtime environment injection (no rebuild on config change)
+- Enterprise portal license key distribution
+- MCP API security hardening (brute-force protection, TOCTOU optimistic lock, HTTPS enforcement)
+
+### v1.0.0 (2026-08-02)
+
+- Initial release
