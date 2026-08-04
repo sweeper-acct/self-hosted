@@ -295,10 +295,6 @@ After changing `.env`:
 docker compose up -d frontend   # restarts container; entrypoint re-generates env-config.js
 ```
 
-**"quota exceeded" when uploading**
-
-Your MCP plan's monthly runs are exhausted. Contact [service@sweeper-acct.com.au](mailto:service@sweeper-acct.com.au) to add more runs.
-
 ---
 
 ## Support
