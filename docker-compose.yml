@@ -5,12 +5,11 @@ version: "3.9"
 #
 # Prerequisites:
 #   - Docker Engine 24+ and Docker Compose v2
-#   - A Supabase project (cloud or self-hosted) with migrations applied
+#   - A Supabase project with combined_schema.sql applied
 #   - A Sweeper MCP API key from enterprise.sweeper-acct.com.au
 #
 # Quick start:
 #   cp .env.example .env          # fill in all required values
-#   docker login -u sweeper425 --password-stdin  # use the token from your account portal
 #   docker compose pull           # pull pre-built images
 #   docker compose up -d
 #   docker compose logs -f        # watch startup
@@ -21,69 +20,10 @@ version: "3.9"
 
 services:
 
-  # ─── Redis (job queue) ─────────────────────────────────────────────────────
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # ─── Backend API ───────────────────────────────────────────────────────────
-  backend:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.6}
-    restart: unless-stopped
-    env_file: .env
-    environment:
-      REDIS_URL: redis://redis:6379/0
-    ports:
-      - "${BACKEND_PORT:-8000}:8000"
-    volumes:
-      - license_data:/data
-    depends_on:
-      redis:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 20s
-      timeout: 10s
-      retries: 5
-
-  # ─── Celery worker ─────────────────────────────────────────────────────────
-  celery_worker:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.6}
-    restart: unless-stopped
-    command: celery -A celery_app.tasks worker --loglevel=info --concurrency=2
-    env_file: .env
-    environment:
-      REDIS_URL: redis://redis:6379/0
-    volumes:
-      - license_data:/data
-    depends_on:
-      redis:
-        condition: service_healthy
-
-  # ─── Celery beat (scheduled tasks) ─────────────────────────────────────────
-  celery_beat:
-    image: sweeper425/sweeper-backend:${SWEEPER_VERSION:-1.0.6}
-    restart: unless-stopped
-    command: celery -A celery_app.tasks beat --loglevel=info
-    env_file: .env
-    environment:
-      REDIS_URL: redis://redis:6379/0
-    volumes:
-      - license_data:/data
-    depends_on:
-      redis:
-        condition: service_healthy
-
   # ─── Frontend ──────────────────────────────────────────────────────────────
-  # Pre-built image from Docker Hub. Your Supabase URL and API URL are injected
-  # at container start via environment variables — no local build required.
+  # Pre-built image from Docker Hub. Supabase URL and API endpoint are injected
+  # at container start — no local build required.
+  # AI processing is handled by Sweeper's backend via your MCP API key.
   frontend:
     image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.0.6}
     restart: unless-stopped
@@ -96,9 +36,3 @@ services:
       VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
       VITE_CONTACT_EMAIL:     ${VITE_CONTACT_EMAIL:-service@sweeper-acct.com.au}
       VITE_DEPLOYMENT_MODE:   self-hosted
-    depends_on:
-      - backend
-
-volumes:
-  redis_data:
-  license_data:   # persists lease file and installation ID across container restarts
