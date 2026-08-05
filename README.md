@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.7  
+> **Version**: v1.0.9  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,7 +19,7 @@
 
 ```
 Your server
-└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.7)
+└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.9)
 
 Your Supabase project
 ├── Postgres + RLS    (all firm/client/case data)
@@ -92,7 +92,7 @@ Fill in:
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `VITE_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
 | `VITE_DEPLOYMENT_MODE` | `self-hosted` (pre-filled in `.env.example`) |
-| `SWEEPER_VERSION` | `1.0.8` (or leave default) |
+| `SWEEPER_VERSION` | `1.0.9` (or leave default) |
 
 ### 5. Configure Supabase Auth redirect URLs
 
@@ -164,7 +164,7 @@ docker compose up -d --force-recreate
 | `VITE_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — authenticates AI Normalization calls and displays your plan & quota on the billing page |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.8`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.9`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -199,6 +199,17 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.9 (2026-08-06)
+
+- Plan & Billing page redesigned to match SaaS visual structure: plan cards with feature lists, AI Normalization quota bar, interval toggle, top-up packs — all actions link to enterprise portal
+- Removed stale license/info query (endpoint was removed in v1.0.8)
+
+### v1.0.8 (2026-08-06)
+
+- Self-hosted architecture: frontend-only deployment; AI processing via MCP API key
+- CORS gateway: wildcard CORS for /api/v1/mcp* paths — self-hosted frontends on any domain now work without CORS errors
+- SaaS backend local license check removed — no SWEEPER_MCP_KEY or SWEEPER_MCP_ENDPOINT env vars required
 
 ### v1.0.7 (2026-08-06)
 
