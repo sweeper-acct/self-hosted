@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-05T03:50:07Z
+-- Sweeper combined schema — generated 2026-08-05T05:37:01Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3128,4 +3128,16 @@ ALTER TABLE clients
 ALTER TABLE cases
   ADD COLUMN IF NOT EXISTS xero_pushed_at TIMESTAMPTZ,
   ADD COLUMN IF NOT EXISTS qbo_pushed_at  TIMESTAMPTZ;
+
+
+-- ── 20260101000062_mcp_allowed_origin.sql ───────────────────────────────────
+-- Migration 062: add allowed_origin to mcp_customers
+-- Self-hosted customers register their deployment domain here.
+-- The gateway service checks this field for dynamic CORS authorisation.
+
+ALTER TABLE mcp_customers
+  ADD COLUMN IF NOT EXISTS allowed_origin TEXT;
+
+COMMENT ON COLUMN mcp_customers.allowed_origin IS
+  'Self-hosted deployment URL (e.g. https://sweeper.firmname.com.au). Used by gateway for CORS authorisation.';
 

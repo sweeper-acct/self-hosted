@@ -77,8 +77,10 @@ Fill in:
 |---|---|
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
-| `VITE_API_BASE_URL` | Sweeper backend URL (provided with your MCP key) |
+| `VITE_API_BASE_URL` | `https://gateway.enterprise.sweeper-acct.com.au` (pre-filled in `.env.example`) |
 | `SWEEPER_VERSION` | `1.0.6` (or leave default) |
+
+> **Note:** The gateway only accepts requests from the domain you registered at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au). If your deployment URL changes, update it in your enterprise account.
 
 ### 4. Configure Supabase Auth redirect URLs
 
@@ -147,7 +149,7 @@ docker compose up -d --force-recreate
 |---|---|---|
 | `VITE_SUPABASE_URL` | Yes | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
-| `VITE_API_BASE_URL` | Yes | Sweeper backend URL (from your enterprise account) |
+| `VITE_API_BASE_URL` | Yes | `https://gateway.enterprise.sweeper-acct.com.au` — the Sweeper CORS gateway. Your deployment domain must be registered at enterprise.sweeper-acct.com.au. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
 | `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.6`) |
