@@ -65,7 +65,20 @@ In Supabase **SQL Editor**, paste and run `combined_schema.sql` (included in thi
 Supabase Dashboard → SQL Editor → New query → paste combined_schema.sql → Run
 ```
 
-### 3. Configure environment
+### 3. Configure the JWT Auth Hook
+
+This step injects `firm_id`, `team_id`, and `user_role` into every JWT so the backend can authenticate requests without an extra database round-trip.
+
+In your Supabase project → **Authentication → Auth Hooks**:
+
+1. Click **Add new hook**
+2. Hook type: **Customize Access Token**
+3. Function name: `custom_jwt_hook`
+4. Click **Save**
+
+> **Optional but recommended.** Without the hook, authentication still works — the backend falls back to a database lookup on every request. With the hook, claims are in the JWT itself (faster, fewer round-trips).
+
+### 4. Configure environment
 
 ```bash
 cp .env.example .env
@@ -78,17 +91,18 @@ Fill in:
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `VITE_API_BASE_URL` | `https://gateway.enterprise.sweeper-acct.com.au` (pre-filled in `.env.example`) |
-| `SWEEPER_VERSION` | `1.0.6` (or leave default) |
+| `VITE_DEPLOYMENT_MODE` | `self-hosted` (pre-filled in `.env.example`) |
+| `SWEEPER_VERSION` | `1.0.7` (or leave default) |
 
 > **Note:** The gateway only accepts requests from the domain you registered at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au). If your deployment URL changes, update it in your enterprise account.
 
-### 4. Configure Supabase Auth redirect URLs
+### 5. Configure Supabase Auth redirect URLs
 
 In your Supabase project → **Authentication → URL Configuration**:
 - **Site URL**: `http://localhost:3000` (or your domain)
 - **Redirect URLs**: `http://localhost:3000/**`
 
-### 5. Start
+### 6. Start
 
 ```bash
 docker compose pull
