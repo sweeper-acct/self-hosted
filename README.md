@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.6  
+> **Version**: v1.0.7  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,7 +19,7 @@
 
 ```
 Your server
-└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.6)
+└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.7)
 
 Your Supabase project
 ├── Postgres + RLS    (all firm/client/case data)
@@ -187,6 +187,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.7 (2026-08-06)
+
+- CORS gateway live at `gateway.enterprise.sweeper-acct.com.au` — all API traffic now routes through the gateway
+- CSP fix: `gateway.enterprise.sweeper-acct.com.au` added to `connect-src` whitelist
 
 ### v1.0.6 (2026-08-05)
 
