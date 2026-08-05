@@ -30,7 +30,7 @@ services:
     environment:
       VITE_SUPABASE_URL:      ${VITE_SUPABASE_URL}
       VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
-      VITE_API_BASE_URL:      ${VITE_API_BASE_URL}
+      VITE_MCP_KEY:           ${VITE_MCP_KEY}
       VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
       VITE_CONTACT_EMAIL:     ${VITE_CONTACT_EMAIL:-service@sweeper-acct.com.au}
       VITE_DEPLOYMENT_MODE:   self-hosted
