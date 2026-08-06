@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.9  
+> **Version**: v1.0.10  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,7 +19,7 @@
 
 ```
 Your server
-└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.9)
+└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.10)
 
 Your Supabase project
 ├── Postgres + RLS    (all firm/client/case data)
@@ -92,7 +92,7 @@ Fill in:
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `VITE_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
 | `VITE_DEPLOYMENT_MODE` | `self-hosted` (pre-filled in `.env.example`) |
-| `SWEEPER_VERSION` | `1.0.9` (or leave default) |
+| `SWEEPER_VERSION` | `1.0.10` (or leave default) |
 
 ### 5. Configure Supabase Auth redirect URLs
 
@@ -164,7 +164,7 @@ docker compose up -d --force-recreate
 | `VITE_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — authenticates AI Normalization calls and displays your plan & quota on the billing page |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.9`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.10`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -199,6 +199,14 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.10 (2026-08-06)
+
+- Self-hosted billing: Upgrade/Switch plan buttons now launch Stripe checkout directly (same flow as SaaS) — no portal redirect
+- Independent self-hosted pricing: AU$650/1,500/2,900 monthly; AU$6,500/15,000/29,000 annual
+- "AI Normalization" terminology replaced with "MCP runs" throughout billing UI
+- Trial banner: "Free trial — 5 MCP runs · X of 5 used · Expires date"
+- No-key banner simplified; success banner on return from Stripe checkout
 
 ### v1.0.9 (2026-08-06)
 
