@@ -207,10 +207,6 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 - Modules page: BAS/GST shown as inactive when no MCP key configured; modules query Supabase directly; team module toggles write to Supabase directly
 - `useActiveModules`: returns empty set when no MCP key (prevents New Folder showing BAS/GST as available)
 
-### v1.0.13 (2026-08-06)
-
-- Chat page: queries Supabase directly (no backend required); fixes CSP error on opening message
-
 ### v1.0.10 (2026-08-06)
 
 - Self-hosted billing: Upgrade/Switch plan buttons now launch Stripe checkout directly (same flow as SaaS) — no portal redirect
