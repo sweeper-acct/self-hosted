@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.10  
+> **Version**: v1.0.14  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,7 +19,7 @@
 
 ```
 Your server
-└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.10)
+└── frontend     (nginx, React SPA — sweeper425/sweeper-frontend:1.0.14)
 
 Your Supabase project
 ├── Postgres + RLS    (all firm/client/case data)
@@ -164,7 +164,7 @@ docker compose up -d --force-recreate
 | `VITE_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — authenticates AI Normalization calls and displays your plan & quota on the billing page |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.10`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.14`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -199,6 +199,17 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.14 (2026-08-06)
+
+- Chat page: queries Supabase directly (no backend required)
+- Team Settings: teams and members query Supabase directly; approval chain saves to Supabase directly; Xero/QBO integration sections hidden (not applicable to self-hosted)
+- Modules page: BAS/GST shown as inactive when no MCP key configured; modules query Supabase directly; team module toggles write to Supabase directly
+- `useActiveModules`: returns empty set when no MCP key (prevents New Folder showing BAS/GST as available)
+
+### v1.0.13 (2026-08-06)
+
+- Chat page: queries Supabase directly (no backend required); fixes CSP error on opening message
 
 ### v1.0.10 (2026-08-06)
 
