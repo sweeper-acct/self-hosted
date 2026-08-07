@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.20  
+> **Version**: v1.0.21  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -164,7 +164,7 @@ docker compose up -d --force-recreate
 | `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.20`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.21`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -199,6 +199,13 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.21 (August 2026)
+
+- Updated: MCP plan pricing — Starter 150 runs / Growth 250 runs / Scale contact us
+- Updated: Top-up packs — 20 / 30 / 50 runs at AU$10/run
+- Updated: Storage row removed from plan cards (storage is your Supabase project)
+- Updated: Platform feature label — Audit trails · 5-yr
 
 ### v1.0.20 (August 2026)
 
