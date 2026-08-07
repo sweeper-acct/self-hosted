@@ -164,7 +164,7 @@ docker compose up -d --force-recreate
 | `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.14`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.20`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
