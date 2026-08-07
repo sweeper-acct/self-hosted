@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.14  
+> **Version**: v1.0.18  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -12,7 +12,7 @@
 
 - Sweeper frontend running on your own server
 - All client data, workpapers, and audit logs stay within your own Supabase project
-- AI processing (bank statement extraction, GST classification) via your Sweeper MCP API key
+- AI processing (data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off) via your Sweeper MCP API key
 - Upgrade by pulling the latest Docker image — no rebuild required
 
 ## Architecture
@@ -28,7 +28,8 @@ Your Supabase project
 
 Sweeper backend       (enterprise.sweeper-acct.com.au)
 └── AI processing via your MCP API key
-    (bank statement extraction + GST classification)
+    (data normalization, workpaper preparation, client collaboration,
+     audit trails, Xero/QBO integration, and professional sign-off)
 ```
 
 The frontend image is public on Docker Hub — **no Docker Hub login required**.  
