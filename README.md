@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.18  
+> **Version**: v1.0.20  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -200,6 +200,16 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.20 (2026-08-07)
+
+- Plan & Billing: "Enterprise portal ↗" link fixed — was pointing to `/enterprise/dashboard` (404); now links to root portal page
+- Plan & Billing: stops polling MCP key endpoint after first error (prevents 429 rate-limit flood)
+
+### v1.0.18 (2026-08-07)
+
+- `docker-compose.yml`: `VITE_MCP_KEY` now correctly mapped from `SWEEPER_MCP_KEY` env var
+- Team module toggle: fixed "stuck on" bug — `activated_at` now always set on upsert
 
 ### v1.0.14 (2026-08-06)
 
