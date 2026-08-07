@@ -162,7 +162,7 @@ docker compose up -d --force-recreate
 |---|---|---|
 | `VITE_SUPABASE_URL` | Yes | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
-| `VITE_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — authenticates AI Normalization calls and displays your plan & quota on the billing page |
+| `VITE_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au — enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
 | `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.14`) |
@@ -201,62 +201,15 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
-### v1.0.20 (2026-08-07)
+### v1.0.20 (August 2026)
 
-- Plan & Billing: "Enterprise portal ↗" link fixed — was pointing to `/enterprise/dashboard` (404); now links to root portal page
-- Plan & Billing: stops polling MCP key endpoint after first error (prevents 429 rate-limit flood)
+- Improved: Plan & Billing page stability and enterprise portal link
+- Improved: MCP key configuration and team module toggle reliability
 
-### v1.0.18 (2026-08-07)
+### v1.0 — Initial release (August 2026)
 
-- `docker-compose.yml`: `VITE_MCP_KEY` now correctly mapped from `SWEEPER_MCP_KEY` env var
-- Team module toggle: fixed "stuck on" bug — `activated_at` now always set on upsert
-
-### v1.0.14 (2026-08-06)
-
-- Chat page: queries Supabase directly (no backend required)
-- Team Settings: teams and members query Supabase directly; approval chain saves to Supabase directly; Xero/QBO integration sections hidden (not applicable to self-hosted)
-- Modules page: BAS/GST shown as inactive when no MCP key configured; modules query Supabase directly; team module toggles write to Supabase directly
-- `useActiveModules`: returns empty set when no MCP key (prevents New Folder showing BAS/GST as available)
-
-### v1.0.10 (2026-08-06)
-
-- Self-hosted billing: Upgrade/Switch plan buttons now launch Stripe checkout directly (same flow as SaaS) — no portal redirect
-- Independent self-hosted pricing: AU$650/1,500/2,900 monthly; AU$6,500/15,000/29,000 annual
-- "AI Normalization" terminology replaced with "MCP runs" throughout billing UI
-- Trial banner: "Free trial — 5 MCP runs · X of 5 used · Expires date"
-- No-key banner simplified; success banner on return from Stripe checkout
-
-### v1.0.9 (2026-08-06)
-
-- Plan & Billing page redesigned to match SaaS visual structure: plan cards with feature lists, AI Normalization quota bar, interval toggle, top-up packs — all actions link to enterprise portal
-- Removed stale license/info query (endpoint was removed in v1.0.8)
-
-### v1.0.8 (2026-08-06)
-
-- Self-hosted architecture: frontend-only deployment; AI processing via MCP API key
-- CORS gateway: wildcard CORS for /api/v1/mcp* paths — self-hosted frontends on any domain now work without CORS errors
-- SaaS backend local license check removed — no SWEEPER_MCP_KEY or SWEEPER_MCP_ENDPOINT env vars required
-
-### v1.0.7 (2026-08-06)
-
-- CORS gateway live at `gateway.enterprise.sweeper-acct.com.au` — all API traffic now routes through the gateway
-- CSP fix: `gateway.enterprise.sweeper-acct.com.au` added to `connect-src` whitelist
-
-### v1.0.6 (2026-08-05)
-
-- Self-hosted architecture: frontend-only deployment; AI processing via MCP API key
-- Database migrations (apply `combined_schema.sql`):
-  - Migration 060 — per-client Xero/QBO organisation mapping
-  - Migration 061 — BAS journal push timestamps (prevent duplicate Xero/QBO entries)
-
-### v1.0.5 (2026-08-05)
-
-- Migration 058 — soft-delete support for folders
-- Migration 059 — extended task status values
-- Partner Groups, Client Query Portal, SLA Profiles, Firm Module Library
-- BAS workpaper: sortable columns, CLIENT REPLY column, Non-GST tab
-
-### v1.0.4 (2026-08-01)
-
-- Enterprise portal license key distribution
-- MCP API security hardening
+- BAS/GST workpaper workflow: client management, cases, bank statement upload, extraction, GST coding, review, and certification
+- Client query portal and BAS confirmation magic link
+- Xero and QuickBooks Online push integration
+- Partner Groups, SLA Profiles, and Firm Module Library
+- Plan & Billing with 5-run trial period
