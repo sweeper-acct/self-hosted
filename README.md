@@ -207,8 +207,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ### v1.0 — Initial release (August 2026)
 
-- BAS/GST workpaper workflow: client management, cases, bank statement upload, extraction, GST coding, review, and certification
-- Client query portal and BAS confirmation magic link
-- Xero and QuickBooks Online push integration
+- Data normalization: bank statement extraction and structured transaction output
+- Workpaper preparation: GST coding, four-sheet workpaper, Excel export
+- Client collaboration: client query portal and BAS confirmation magic link
+- Audit trails: immutable case log with 5-year retention
+- Xero/QBO integration: automatic BAS journal push on certification
+- Professional sign-off: multi-role approval chain with human gate at every step
 - Partner Groups, SLA Profiles, and Firm Module Library
 - Plan & Billing with 5-run trial period
