@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.41  
+> **Version**: v1.0.42  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,14 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.42 (August 2026)
+
+- Added: Batch Upload now calls MCP extract automatically after each file upload — structured transaction rows written to `extracted/` in your Supabase Storage
+- Added: `validate_extraction` task created in Supabase after extraction, making the folder immediately visible in Chat with a "Validate extraction" task pill
+- Added: Sequential file processing per group prevents concurrent quota deductions (one file at a time; backend uses optimistic locking as a second guard)
+- Added: `SWEEPER_MCP_ENDPOINT` env var (optional) — override the Sweeper backend endpoint if instructed by support
+- Fixed: Opening/closing balance metadata lines now included in extracted CSV (passed through from MCP response)
 
 ### v1.0.41 (August 2026)
 
