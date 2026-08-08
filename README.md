@@ -218,6 +218,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.25 (August 2026)
+
+- Fixed: firm_id now correctly read from JWT access_token payload (self-hosted custom_jwt_hook)
+
 ### v1.0.24 (August 2026)
 
 - Fixed: Add member (Partner role) now correctly creates team with firm_id — RLS policy added
