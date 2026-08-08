@@ -11,31 +11,31 @@
 ## What you get
 
 - Sweeper frontend running on your own server
-- All client data, workpapers, and audit logs stay within your own Supabase project
+- All client data, workpapers, and audit logs stay within your own Supabase project — Sweeper never holds a copy
 - AI processing (data normalization, workpaper preparation, client collaboration, audit trails, and professional sign-off) via your Sweeper MCP API key
-- Your data lives in your own Supabase project — you own it. Build downstream integrations (Xero, MYOB, QuickBooks) directly from your own database and storage using any tool you choose.
+- You own your data — build downstream integrations (Xero, MYOB, QuickBooks) directly from your Supabase Storage using any tool you choose
 - Upgrade by pulling the latest Docker image — no rebuild required
 
 ## Architecture
 
 ```
 Your server
-鈹斺攢鈹€ frontend     (nginx, React SPA 鈥?sweeper425/sweeper-frontend:1.0.31)
+  frontend       nginx + React SPA (sweeper425/sweeper-frontend)
 
 Your Supabase project
-鈹溾攢鈹€ Postgres + RLS    (all firm/client/case data)
-鈹溾攢鈹€ Auth              (JWT authentication)
-鈹斺攢鈹€ Storage           (bank statement PDFs, workpaper CSVs)
+  Postgres + RLS   all firm/client/case data
+  Auth             JWT authentication
+  Storage          bank statement PDFs, workpaper CSVs and JSON
 
-Sweeper backend       (enterprise.sweeper-acct.com.au)
-鈹斺攢鈹€ AI processing via your MCP API key
-    (data normalization, workpaper preparation, client collaboration,
-     audit trails, and professional sign-off)
+Sweeper backend    enterprise.sweeper-acct.com.au
+  AI processing via your MCP API key
+  (data normalization, workpaper preparation, client collaboration,
+   audit trails, and professional sign-off)
 
 Your downstream integrations (Xero, MYOB, QuickBooks, etc.)
-鈹斺攢鈹€ Your Supabase Storage and database are yours to query directly.
-    Read workpaper files and BAS data from your own storage,
-    then push to any accounting software using your own credentials.
+  Your Supabase Storage and database are yours to query directly.
+  Read workpaper files and BAS data from your own storage,
+  then push to any accounting software using your own credentials.
 ```
 
 The frontend image is public on Docker Hub — **no Docker Hub login required**.
