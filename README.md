@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.23  
+> **Version**: v1.0.31  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -19,7 +19,7 @@
 
 ```
 Your server
-鈹斺攢鈹€ frontend     (nginx, React SPA 鈥?sweeper425/sweeper-frontend:1.0.28)
+鈹斺攢鈹€ frontend     (nginx, React SPA 鈥?sweeper425/sweeper-frontend:1.0.31)
 
 Your Supabase project
 鈹溾攢鈹€ Postgres + RLS    (all firm/client/case data)
@@ -217,6 +217,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.31 (August 2026)
+
+- Fixed: SLA profiles now create/edit/delete correctly in self-hosted (Supabase direct, no backend)
+- Fixed: AI Settings nav item hidden in self-hosted (BYOK is a SaaS-only feature)
 
 ### v1.0.28 (August 2026)
 
