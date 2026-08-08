@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.35  
+> **Version**: v1.0.41  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -12,8 +12,9 @@
 
 - Sweeper frontend running on your own server
 - All client data, workpapers, and audit logs stay within your own Supabase project
-- AI processing (data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off) via your Sweeper MCP API key
-- Upgrade by pulling the latest Docker image 鈥?no rebuild required
+- AI processing (data normalization, workpaper preparation, client collaboration, audit trails, and professional sign-off) via your Sweeper MCP API key
+- Your data lives in your own Supabase project — you own it. Build downstream integrations (Xero, MYOB, QuickBooks) directly from your own database and storage using any tool you choose.
+- Upgrade by pulling the latest Docker image — no rebuild required
 
 ## Architecture
 
@@ -29,8 +30,34 @@ Your Supabase project
 Sweeper backend       (enterprise.sweeper-acct.com.au)
 鈹斺攢鈹€ AI processing via your MCP API key
     (data normalization, workpaper preparation, client collaboration,
-     audit trails, Xero/QBO integration, and professional sign-off)
+     audit trails, and professional sign-off)
+
+Your downstream integrations (Xero, MYOB, QuickBooks, etc.)
+鈹斺攢鈹€ Your Supabase Storage and database are yours to query directly.
+    Read workpaper files and BAS data from your own storage,
+    then push to any accounting software using your own credentials.
 ```
+
+The frontend image is public on Docker Hub — **no Docker Hub login required**.
+
+---
+
+## Your data
+
+All client data, workpapers, and audit logs are written to **your own Supabase project** — Sweeper never holds a copy.
+
+Once a BAS/GST folder is certified, the output files sit in your own Supabase Storage:
+
+```
+{firm_id}/{client_id}/{period}/
+  final/     ← BAS summary JSON (G1, G11, 1A, 1B, 8A) — written after BAS draft
+  reviewed/  ← GST-coded transaction workpaper CSV — human-certified by Senior
+  archived/  ← Immutable copy written after Partner certifies
+```
+
+You can query these files directly using the Supabase client, the Supabase dashboard, or any PostgreSQL-compatible tool. Build downstream integrations with Xero, MYOB, QuickBooks, or any other platform using your own credentials and your own schedule — no dependency on Sweeper for that step.
+
+---
 
 The frontend image is public on Docker Hub 鈥?**no Docker Hub login required**.  
 Your Supabase URL and MCP endpoint are injected at container start via `window.__SWEEPER__` (no rebuild needed on config change).
@@ -217,6 +244,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.41 (August 2026)
+
+- Added: "Your data" section — explains that all workpapers live in your own Supabase Storage and are yours to query directly for downstream integrations (Xero, MYOB, QuickBooks)
+- Updated: Architecture diagram clarifies Sweeper backend scope (AI processing only; downstream integrations are your own)
 
 ### v1.0.35 (August 2026)
 
