@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.31  
+> **Version**: v1.0.35  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -217,6 +217,14 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.35 (August 2026)
+
+- Fixed: New Client page Junior dropdown now loads in self-hosted (Supabase direct)
+- Fixed: Register Client button now creates client and directors in self-hosted (Supabase direct)
+- Fixed: Team members list shows child group members in parent team view (self-hosted)
+- Fixed: Move member to child group now allowed by RLS policy (Migration 062)
+- Fixed: Create Group, SLA profiles, AI Settings nav — self-hosted compatibility
 
 ### v1.0.31 (August 2026)
 
