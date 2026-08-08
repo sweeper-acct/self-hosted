@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.21  
+> **Version**: v1.0.22  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -199,6 +199,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.22 (August 2026)
+
+- Fixed: MCP plan staff limits — Starter 15 staff, Growth 20 staff
 
 ### v1.0.21 (August 2026)
 
