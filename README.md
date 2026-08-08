@@ -218,6 +218,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.26 (August 2026)
+
+- Fixed: login error no longer triggers CSP-blocked backend call in self-hosted
+- Fixed: forgot password no longer calls SaaS backend in self-hosted
+
 ### v1.0.25 (August 2026)
 
 - Fixed: firm_id now correctly read from JWT access_token payload (self-hosted custom_jwt_hook)
