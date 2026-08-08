@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-08T02:05:56Z
+-- Sweeper combined schema — generated 2026-08-08T03:15:31Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3140,4 +3140,17 @@ ALTER TABLE mcp_customers
 
 COMMENT ON COLUMN mcp_customers.allowed_origin IS
   'Self-hosted deployment URL (e.g. https://sweeper.firmname.com.au). Used by gateway for CORS authorisation.';
+
+
+-- ── 20260101000063_users_insert_policy.sql ───────────────────────────────────
+-- Allow owner/admin to insert new users within their own firm.
+-- Required for self-hosted Add Member flow (direct Supabase, no backend).
+-- firm_boundary RESTRICTIVE policy still enforces firm isolation.
+CREATE POLICY users_owner_admin_insert ON public.users
+  AS PERMISSIVE FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    firm_id = auth_firm_id()
+    AND auth_user_role() IN ('owner', 'admin')
+  );
 

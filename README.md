@@ -169,6 +169,24 @@ docker compose up -d --force-recreate
 
 ---
 
+## Account setup notes
+
+**Each email address can only be linked to one account.**
+
+Supabase Auth enforces unique emails across all roles. If the firm principal (Owner) also manages their own partner team, they must register their team account with a different email address.
+
+A common pattern is to use email sub-addressing (supported by most providers including Gmail):
+
+| Role | Email example |
+|---|---|
+| Owner (firm admin) | `principal@firm.com.au` |
+| Partner (own team) | `principal+partner@firm.com.au` |
+| Junior | `junior@firm.com.au` |
+
+Both `principal@firm.com.au` and `principal+partner@firm.com.au` deliver to the same inbox — Supabase treats them as separate accounts.
+
+---
+
 ## Troubleshooting
 
 **Frontend shows blank page or "missing Supabase URL"**
