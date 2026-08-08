@@ -218,6 +218,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.24 (August 2026)
+
+- Fixed: Add member (Partner role) now correctly creates team with firm_id — RLS policy added
+- Fixed: "Multiple GoTrueClient instances" warning eliminated (anon client moved to module level)
+
 ### v1.0.23 (August 2026)
 
 - Fixed: Add member now works in self-hosted mode (Supabase direct, no backend required)

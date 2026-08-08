@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-08T03:17:03Z
+-- Sweeper combined schema — generated 2026-08-08T03:32:31Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3147,6 +3147,18 @@ COMMENT ON COLUMN mcp_customers.allowed_origin IS
 -- Required for self-hosted Add Member flow (direct Supabase, no backend).
 -- firm_boundary RESTRICTIVE policy still enforces firm isolation.
 CREATE POLICY users_owner_admin_insert ON public.users
+  AS PERMISSIVE FOR INSERT
+  TO authenticated
+  WITH CHECK (
+    firm_id = auth_firm_id()
+    AND auth_user_role() IN ('owner', 'admin')
+  );
+
+
+-- ── 20260101000064_teams_insert_policy.sql ───────────────────────────────────
+-- Allow owner/admin to create new teams within their own firm.
+-- Required for self-hosted Partner creation (direct Supabase, no backend).
+CREATE POLICY teams_owner_admin_insert ON public.teams
   AS PERMISSIVE FOR INSERT
   TO authenticated
   WITH CHECK (
