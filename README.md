@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.0.22  
+> **Version**: v1.0.23  
 > AI Workforce OS for Australian accounting firms — self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -217,6 +217,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.23 (August 2026)
+
+- Fixed: Add member now works in self-hosted mode (Supabase direct, no backend required)
+- Fixed: Team rename now works in self-hosted mode
+- Added: Account setup notes — unique email requirement + email alias pattern
 
 ### v1.0.22 (August 2026)
 
