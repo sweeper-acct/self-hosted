@@ -218,6 +218,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.27 (August 2026)
+
+- Fixed: login no longer triggers OTP email in self-hosted (password sign-in goes directly to app)
+
 ### v1.0.26 (August 2026)
 
 - Fixed: login error no longer triggers CSP-blocked backend call in self-hosted
