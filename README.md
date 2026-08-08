@@ -93,7 +93,16 @@ In Supabase **SQL Editor**, paste and run `combined_schema.sql` (included in thi
 Supabase Dashboard 鈫?SQL Editor 鈫?New query 鈫?paste combined_schema.sql 鈫?Run
 ```
 
-### 3. Configure the JWT Auth Hook
+### 3. Create the Storage bucket
+
+In Supabase **Dashboard → Storage → New bucket**:
+
+- **Name:** `firm-files`
+- **Public:** off (private)
+
+This bucket stores all uploaded bank statements and generated workpapers. It is not created by the SQL schema and must be set up once manually.
+
+### 4. Configure the JWT Auth Hook
 
 This step injects `firm_id`, `team_id`, and `user_role` into every JWT so the backend can authenticate requests without an extra database round-trip.
 
@@ -106,7 +115,7 @@ In your Supabase project 鈫?**Authentication 鈫?Auth Hooks**:
 
 > **Optional but recommended.** Without the hook, authentication still works 鈥?the backend falls back to a database lookup on every request. With the hook, claims are in the JWT itself (faster, fewer round-trips).
 
-### 4. Configure environment
+### 5. Configure environment
 
 ```bash
 cp .env.example .env
@@ -121,13 +130,13 @@ Fill in:
 | `SWEEPER_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
 | `SWEEPER_VERSION` | `1.0.20` (or leave default) |
 
-### 5. Configure Supabase Auth redirect URLs
+### 6. Configure Supabase Auth redirect URLs
 
 In your Supabase project 鈫?**Authentication 鈫?URL Configuration**:
 - **Site URL**: `http://localhost:3000` (or your domain)
 - **Redirect URLs**: `http://localhost:3000/**`
 
-### 6. Start
+### 7. Start
 
 ```bash
 docker compose pull
