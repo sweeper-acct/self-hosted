@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-08T08:09:31Z
+-- Sweeper combined schema — generated 2026-08-08T08:15:14Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3140,6 +3140,39 @@ ALTER TABLE mcp_customers
 
 COMMENT ON COLUMN mcp_customers.allowed_origin IS
   'Self-hosted deployment URL (e.g. https://sweeper.firmname.com.au). Used by gateway for CORS authorisation.';
+
+
+-- ── 20260101000062_users_update_rls_child_group.sql ───────────────────────────────────
+-- Fix users_update WITH CHECK to allow Partner/Manager to move members into child groups.
+-- USING checks the OLD row (source team_id must match caller's team) — unchanged.
+-- WITH CHECK previously required new team_id = auth_team_id(), blocking moves to groups.
+-- New WITH CHECK also accepts new team_id that is a child group of auth_team_id().
+
+DROP POLICY IF EXISTS users_update ON users;
+
+CREATE POLICY users_update ON users
+    AS PERMISSIVE FOR UPDATE
+    USING (
+        id = auth.uid()
+        OR auth_user_role() = 'admin'
+        OR (team_id = auth_team_id()
+            AND auth_user_role() IN ('partner', 'manager'))
+    )
+    WITH CHECK (
+        id = auth.uid()
+        OR auth_user_role() = 'admin'
+        OR (
+            auth_user_role() IN ('partner', 'manager')
+            AND (
+                team_id = auth_team_id()
+                OR EXISTS (
+                    SELECT 1 FROM teams t
+                    WHERE t.id = users.team_id
+                      AND t.parent_team_id = auth_team_id()
+                )
+            )
+        )
+    );
 
 
 -- ── 20260101000063_users_insert_policy.sql ───────────────────────────────────
