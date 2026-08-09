@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.52  
+> **Version**: v1.0.53  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.53 (August 2026)
+
+- Fixed: Continue button now sets `completed_at` on the extract task — satisfies `chk_completed_at_consistency` constraint
 
 ### v1.0.52 (August 2026)
 
