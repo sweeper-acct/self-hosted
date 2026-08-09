@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.55  
+> **Version**: v1.0.56  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -200,7 +200,7 @@ docker compose up -d --force-recreate
 | `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au 鈥?enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.54`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.56`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -253,6 +253,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.56 (August 2026)
+
+- Fixed: "Continue" button now appears correctly when an extract task already exists but `validate_extraction` has not yet been created — previously the button was hidden once any extract task existed, even if extraction had never completed successfully
+- Fixed: clicking "Continue" no longer fails when an extract task already exists in the database — duplicate insert is now skipped safely
 
 ### v1.0.55 (August 2026)
 
