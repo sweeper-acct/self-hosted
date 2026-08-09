@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.56  
+> **Version**: v1.0.57  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.57 (August 2026)
+
+- Fixed: MCP endpoint URL now dynamically injected into nginx Content-Security-Policy at container start — works for any configured `SWEEPER_MCP_ENDPOINT`, including Railway direct URLs (`*.up.railway.app`)
+- Previously: CSP was hardcoded to `enterprise.sweeper-acct.com.au` only, blocking extraction calls to the Railway backend
 
 ### v1.0.56 (August 2026)
 
