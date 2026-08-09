@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.53  
+> **Version**: v1.0.54  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -200,7 +200,7 @@ docker compose up -d --force-recreate
 | `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au 鈥?enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.21`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.54`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -253,6 +253,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.54 (August 2026)
+
+- Added: ValidatePage workpaper now fully functional in self-hosted — Junior can view, edit, and submit the extracted transaction table (validate_extraction) and GST-coded workpaper (validate_gst) directly from Supabase Storage
+- Added: validate_extraction submit promotes extracted CSV → validated CSV in Storage, creates next workflow tasks (gst_prep → waiting for BASAgent, validate_gst → pending)
+- Added: validate_gst submit calls MCP classify for GST coding, promotes validated → processed CSV, creates senior_review or bas_draft task based on approval chain
 
 ### v1.0.53 (August 2026)
 
