@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.51  
+> **Version**: v1.0.52  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.52 (August 2026)
+
+- Fixed: MCP extract URL was missing `/api/v1` prefix — caused CORS block when calling from self-hosted frontend
 
 ### v1.0.51 (August 2026)
 
