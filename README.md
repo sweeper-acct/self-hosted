@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.49  
+> **Version**: v1.0.51  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,16 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.51 (August 2026)
+
+- Added: "Continue" button on Folder detail page — for PDFs uploaded before MCP was connected, click triggers AI extraction (MCP extract → extracted CSV → validate_extraction task created automatically)
+- Updated: Batch Upload button label → "Start working (N files)" during AI Workforce OS flow; AI extraction spinner is now violet to distinguish from the blue upload spinner
+- Fixed: Junior can now see folders created by a Manager before they were assigned — assigning a client now cascades `assigned_junior` to all existing open folders
+
+### v1.0.50 (August 2026)
+
+- Fixed: New folders created from Client detail page now set `assigned_junior` so Junior RLS is satisfied immediately (Junior can see their own folders without waiting for a re-assignment)
 
 ### v1.0.49 (August 2026)
 
