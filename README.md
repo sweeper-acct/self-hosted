@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.54  
+> **Version**: v1.0.55  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.55 (August 2026)
+
+- Fixed: MCP extract stub data — Orvexa API key was not passed to extraction service, causing all extractions to return fixed test rows (including "XYZ Pty Ltd"). Real PDF extraction now works correctly.
+- Fixed: validate_gst submit now respects approval chain — firms with Senior review gate create `senior_review` task (not `bas_draft`); minimal-chain firms continue to promote directly to reviewed/
+- Fixed: validate_gst submit writes Junior edits back to processed/ for full-chain firms; Senior then promotes to reviewed/ on approve
 
 ### v1.0.54 (August 2026)
 
