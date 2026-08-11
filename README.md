@@ -254,6 +254,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.67 (August 2026)
+
+- Fixed: Query checkbox column now visible on all workpaper tabs (not just Review Required tab) in SaaS mode — Senior can send client queries from any sheet
+- Fixed: CLIENT REPLY column now correctly displays client answers in SeniorReviewPage when queries have been answered
+- Improved: Query creation toolbar hidden in self-hosted (client query requires SaaS backend)
+
 ### v1.0.57 (August 2026)
 
 - Fixed: MCP endpoint URL now dynamically injected into nginx Content-Security-Policy at container start — works for any configured `SWEEPER_MCP_ENDPOINT`, including Railway direct URLs (`*.up.railway.app`)
