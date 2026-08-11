@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-11T11:32:44Z
+-- Sweeper combined schema — generated 2026-08-11T11:58:16Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3173,6 +3173,124 @@ CREATE POLICY users_update ON users
             )
         )
     );
+
+
+-- ── 20260101000063_selfhosted_query_anon.sql ───────────────────────────────────
+-- Migration 063: self-hosted client query anonymous access
+-- Creates SECURITY DEFINER functions so the ClientQueryPage can work
+-- with the Supabase anon key (no backend server required).
+-- Required for self-hosted deployments; SaaS uses the backend API instead.
+-- Apply via Supabase SQL Editor.
+
+-- ─── Verify token + return case context ───────────────────────────────────────
+CREATE OR REPLACE FUNCTION public.get_query_link_by_token(
+  p_token    TEXT,
+  p_password TEXT
+)
+RETURNS TABLE (
+  link_id       UUID,
+  case_id       UUID,
+  submitted_at  TIMESTAMPTZ,
+  business_name TEXT,
+  period        TEXT
+)
+LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT
+    ql.id            AS link_id,
+    ql.case_id,
+    ql.submitted_at,
+    cl.business_name,
+    ca.period
+  FROM client_query_links ql
+  JOIN cases   ca ON ca.id = ql.case_id
+  JOIN clients cl ON cl.id = ca.client_id
+  WHERE ql.token    = p_token
+    AND ql.password = p_password
+    AND ql.expires_at > NOW();
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_query_link_by_token(TEXT, TEXT) TO anon, authenticated;
+
+-- ─── Get queries for a verified link ─────────────────────────────────────────
+CREATE OR REPLACE FUNCTION public.get_queries_by_link(
+  p_link_id  UUID,
+  p_token    TEXT,
+  p_password TEXT
+)
+RETURNS TABLE (
+  id                  UUID,
+  transaction_row_ref TEXT,
+  merchant            TEXT,
+  amount              TEXT,
+  query_text          TEXT,
+  context_note        TEXT,
+  client_answer       TEXT,
+  status              TEXT,
+  date                TEXT,
+  description         TEXT,
+  account             TEXT
+)
+LANGUAGE sql SECURITY DEFINER SET search_path = public AS $$
+  SELECT
+    q.id,
+    q.transaction_row_ref,
+    q.merchant,
+    q.amount,
+    q.query_text,
+    q.context_note,
+    q.client_answer,
+    q.status,
+    q.date,
+    q.description,
+    q.account
+  FROM queries q
+  JOIN client_query_links ql ON ql.id = q.link_id
+  WHERE q.link_id   = p_link_id
+    AND ql.token    = p_token
+    AND ql.password = p_password
+    AND ql.expires_at > NOW();
+$$;
+
+GRANT EXECUTE ON FUNCTION public.get_queries_by_link(UUID, TEXT, TEXT) TO anon, authenticated;
+
+-- ─── Submit client query answers ──────────────────────────────────────────────
+-- p_answers: [{ "query_id": "uuid", "client_answer": "text" }, ...]
+CREATE OR REPLACE FUNCTION public.submit_client_query_answers(
+  p_token    TEXT,
+  p_password TEXT,
+  p_answers  JSONB
+)
+RETURNS BOOLEAN
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_link client_query_links%ROWTYPE;
+BEGIN
+  SELECT * INTO v_link
+  FROM client_query_links
+  WHERE token      = p_token
+    AND password   = p_password
+    AND expires_at > NOW()
+    AND submitted_at IS NULL;
+
+  IF NOT FOUND THEN
+    RETURN FALSE;
+  END IF;
+
+  UPDATE queries AS q SET
+    client_answer = src.a->>'client_answer',
+    status        = 'answered',
+    answered_at   = NOW()
+  FROM (SELECT jsonb_array_elements(p_answers) AS a) AS src
+  WHERE q.id      = (src.a->>'query_id')::UUID
+    AND q.link_id = v_link.id;
+
+  UPDATE client_query_links SET submitted_at = NOW() WHERE id = v_link.id;
+
+  RETURN TRUE;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.submit_client_query_answers(TEXT, TEXT, JSONB) TO anon;
 
 
 -- ── 20260101000063_users_insert_policy.sql ───────────────────────────────────
