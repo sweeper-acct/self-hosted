@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.75  
+> **Version**: v1.0.79  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -254,7 +254,13 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
-### v1.0.75 (August 2026)
+### v1.0.79 (August 2026)
+
+- Fixed: Supabase Storage bucket name corrected for all self-hosted upload/download paths — was incorrectly using `firm-files` instead of `firm-{uuid}`; affects validated/processed/reviewed CSV uploads in Validate GST and Senior Review pages
+- Fixed: Attachment files in CLIENT REPLY column now open correctly — removed `noreferrer` from `window.open()` so the window reference is non-null and the signed URL is correctly applied
+- Fixed: Supporting Evidence delete returns 403 for client-uploaded files — files uploaded by client (no user account, `uploaded_by=NULL`) can now be deleted by any staff member
+
+### v1.0.76 (August 2026)
 
 - Fixed: CLIENT REPLY attachment files now open correctly in self-hosted — bucket detection logic corrected for self-hosted upload path format (`{token}/{queryId}/...` was being routed to wrong bucket)
 
@@ -427,4 +433,6 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 - Professional sign-off
 - Partner Groups, SLA Profiles, and Firm Module Library
 - Plan & Billing with 5-run trial period
+
+
 
