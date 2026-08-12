@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.82  
+> **Version**: v1.0.83  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.83 (August 2026)
+- Fix: auth helpers now read sub claim from both `request.jwt.claim.sub` and `request.jwt.claims` GUC paths — fixes client list showing empty after registration
+- Fix: Junior auto-assigns themselves when registering a new client
 
 ### v1.0.82 (August 2026)
 - Fix: client registration 403 — self-hosted now uses `create_client_selfhosted` SECURITY DEFINER RPC, bypassing RLS JWT claim dependency; requires applying the RPC function to your Supabase SQL Editor (see bootstrap instructions)
