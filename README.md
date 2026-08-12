@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.70  
+> **Version**: v1.0.71  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.71 (August 2026)
+
+- Added: Client query file attachments in self-hosted — clients can attach receipts/invoices (jpg, png, pdf, xlsx) on the query page; files go to a dedicated `client-uploads` Storage bucket; a new SECURITY DEFINER RPC validates the token before recording in `case_documents`
+- Note: run the updated `combined_schema.sql` to create the `client-uploads` bucket and policies
 
 ### v1.0.70 (August 2026)
 
