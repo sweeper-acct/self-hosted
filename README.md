@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.69  
+> **Version**: v1.0.70  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.70 (August 2026)
+
+- Fixed: Generate link (client query) now correctly reads `firm_id` from JWT payload in self-hosted mode — `app_metadata.firm_id` was always undefined when using `custom_jwt_hook` (top-level JWT claims), causing RLS violation on insert
 
 ### v1.0.69 (August 2026)
 
