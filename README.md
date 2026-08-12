@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.74  
+> **Version**: v1.0.75  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.75 (August 2026)
+
+- Fixed: CLIENT REPLY attachment files now open correctly in self-hosted — bucket detection logic corrected for self-hosted upload path format (`{token}/{queryId}/...` was being routed to wrong bucket)
 
 ### v1.0.74 (August 2026)
 
