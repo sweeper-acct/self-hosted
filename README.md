@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.57  
+> **Version**: v1.0.69  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.69 (August 2026)
+
+- Fixed: `auth_user_role()` RLS function now correctly reads `user_role` claim (was reading `role` = always `'authenticated'`, which blocked all role-based access checks including client query link creation)
+- Fixed: Folder Steps panel now shows the complete planned workflow (all steps including future ones as empty circles), not just tasks that exist in the database
 
 ### v1.0.68 (August 2026)
 
