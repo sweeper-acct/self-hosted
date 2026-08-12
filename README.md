@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.73  
+> **Version**: v1.0.74  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,13 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.74 (August 2026)
+
+- Fixed: CLIENT REPLY column — clicking 📎 attachment icon now opens file correctly in self-hosted (uses Supabase Storage signed URL; previously called SaaS API which silently failed)
+- Fixed: QUERY checkbox column now visible on all 4 workpaper tabs (All Transactions / Ready for GST / Non-GST / Review Required), not just the Review Required tab — Junior and Senior can send client queries from any sheet
+- Fixed: "Send query" toolbar now appears on all tabs after clicking ↩ re-query button
+- Improved: ↩ re-query button uses white background + indigo border (better contrast against amber Review Required row backgrounds)
 
 ### v1.0.73 (August 2026)
 
