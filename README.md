@@ -254,6 +254,13 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### v1.0.68 (August 2026)
+
+- Added: Self-hosted client query — Senior can generate query links directly via Supabase (no SaaS backend required)
+- Added: Three SECURITY DEFINER RPCs in combined_schema.sql: `get_query_link_by_token`, `get_queries_by_link`, `submit_client_query_answers`
+- Fixed: QUERY checkbox and toolbar now enabled in self-hosted mode (previously hidden)
+- Note: apply combined_schema.sql RPCs to your Supabase instance (SQL Editor) before using this feature
+
 ### v1.0.67 (August 2026)
 
 - Fixed: Query checkbox column now visible on all workpaper tabs (not just Review Required tab) in SaaS mode — Senior can send client queries from any sheet
