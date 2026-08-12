@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.72  
+> **Version**: v1.0.73  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.73 (August 2026)
+
+- Added: Case Log now shows audit trail entries in self-hosted — workflow steps (extraction, validate extraction, GST coding, validate GST) now write to the `case_log` table automatically; Case Log page displays all entries with client/period/actor/action filters
 
 ### v1.0.72 (August 2026)
 
