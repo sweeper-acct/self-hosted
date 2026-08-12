@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.79  
+> **Version**: v1.0.81  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.0.81 (August 2026)
+
+- Fixed: CLIENT REPLY attachment 404 (NoSuchKey) — backend `get_document_download_url` now routes to `client-uploads` bucket for client query attachments (paths starting with `evidence/query/`); previously always used `firm-{uuid}` bucket
+- Fixed: `storage_path` field now included in `case_documents` embedded join so frontend `openDocUrl` receives it and picks the correct bucket without falling back to SaaS API
 
 ### v1.0.79 (August 2026)
 
