@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-13T02:45:11Z
+-- Sweeper combined schema — generated 2026-08-13T03:00:51Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3316,4 +3316,45 @@ CREATE POLICY teams_owner_admin_insert ON public.teams
     firm_id = auth_firm_id()
     AND auth_user_role() IN ('owner', 'admin')
   );
+
+
+-- ── 20260101000065_delete_client_query_document.sql ───────────────────────────────────
+-- Migration 065: RPC for client to delete their own uploaded document
+-- Public endpoint (anon key) — SECURITY DEFINER to bypass RLS
+-- Validates token + password + document ownership before deleting
+
+CREATE OR REPLACE FUNCTION public.delete_client_query_document(
+  p_token      TEXT,
+  p_password   TEXT,
+  p_doc_id     UUID
+) RETURNS BOOLEAN LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_link  client_query_links%ROWTYPE;
+  v_count INT;
+BEGIN
+  -- Validate token + password (link must be active, not submitted)
+  SELECT * INTO v_link
+  FROM client_query_links
+  WHERE token = p_token
+    AND submitted_at IS NULL
+    AND expires_at > NOW();
+  IF NOT FOUND THEN RETURN FALSE; END IF;
+  IF v_link.password != p_password THEN RETURN FALSE; END IF;
+
+  -- Verify document belongs to a query in this link
+  SELECT COUNT(*) INTO v_count
+  FROM case_documents cd
+  JOIN queries q ON cd.query_id = q.id
+  WHERE cd.id = p_doc_id
+    AND q.link_id = v_link.id;
+  IF v_count = 0 THEN RETURN FALSE; END IF;
+
+  -- Delete the document record
+  DELETE FROM case_documents WHERE id = p_doc_id;
+  RETURN TRUE;
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION public.delete_client_query_document(TEXT, TEXT, UUID) FROM PUBLIC;
+GRANT  EXECUTE ON FUNCTION public.delete_client_query_document(TEXT, TEXT, UUID) TO anon, authenticated;
 
