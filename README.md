@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.0.83  
+> **Version**: v1.1.02  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -253,6 +253,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.02 (August 2026)
+- Feat: ManagerReviewPage full self-hosted implementation — Supabase-direct BAS summary + workpaper rows; approve advances to client_confirm; reject resets bas_draft + returns upstream
+- Feat: ClientConfirmPage full self-hosted implementation — Supabase-direct BAS summary + workpaper rows; confirm advances to certify; send back returns to manager_review
+- Feat: CertifyPage full self-hosted implementation — reads final/ JSON via signed URL; certify copies final/ to archived/ in Storage + archives case; return for revision returns to client_confirm
+- Full Partner workflow chain now operational in self-hosted mode: validate_gst → senior_review → senior_bas_review → manager_review → client_confirm → certify → archived
 
 ### v1.0.83 (August 2026)
 - Fix: auth helpers now read sub claim from both `request.jwt.claim.sub` and `request.jwt.claims` GUC paths — fixes client list showing empty after registration
