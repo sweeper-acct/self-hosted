@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.02  
+> **Version**: v1.1.04  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -93,14 +93,35 @@ In Supabase **SQL Editor**, paste and run `combined_schema.sql` (included in thi
 Supabase Dashboard 鈫?SQL Editor 鈫?New query 鈫?paste combined_schema.sql 鈫?Run
 ```
 
-### 3. Create the Storage bucket
+### 3. Create the Storage buckets
 
-In Supabase **Dashboard → Storage → New bucket**:
+Two buckets are required. In Supabase **Dashboard → Storage → New bucket**, create each:
 
-- **Name:** `firm-files`
+**Bucket 1 — workpaper files** (auto-created on first registration, but create manually if registering outside the UI):
+- **Name:** `firm-{your-firm-uuid}` — replace with your firm's UUID from the `firms` table after registration
 - **Public:** off (private)
 
-This bucket stores all uploaded bank statements and generated workpapers. It is not created by the SQL schema and must be set up once manually.
+**Bucket 2 — client query attachments** (must be created manually before clients can attach receipts):
+- **Name:** `client-uploads`
+- **Public:** off (private)
+
+After creating `client-uploads`, add Storage policies in **Dashboard → Storage → Policies → client-uploads**:
+
+| Policy | Allowed roles |
+|---|---|
+| INSERT | `anon`, `authenticated` |
+| SELECT | `anon`, `authenticated` |
+| DELETE | `authenticated` |
+
+Or run this SQL in the SQL Editor:
+```sql
+CREATE POLICY "client_uploads_insert" ON storage.objects FOR INSERT
+  WITH CHECK (bucket_id = 'client-uploads');
+CREATE POLICY "client_uploads_select" ON storage.objects FOR SELECT
+  USING (bucket_id = 'client-uploads');
+CREATE POLICY "client_uploads_delete" ON storage.objects FOR DELETE
+  USING (bucket_id = 'client-uploads' AND auth.role() = 'authenticated');
+```
 
 ### 4. Configure the JWT Auth Hook
 
@@ -253,6 +274,13 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.04 (August 2026)
+- Fixed: client query file uploads — `record_client_query_upload` RPC now formally in Migration 066 (was missing from all prior migrations; uploads silently failed in self-hosted mode)
+- Fixed: `document_type` for client-uploaded attachments changed from `"receipt"` to `"client_upload"` (SaaS + self-hosted); existing uploads are unaffected
+- Fixed: Supporting Evidence download URL — removed dead `client-uploads` bucket check in `get_document_download_url`; always uses `firm-{uuid}` bucket for SaaS mode
+- Fixed: README Storage bucket setup — replaced incorrect `firm-files` with correct `firm-{uuid}` (auto-created by `register_firm()`) and added `client-uploads` bucket setup with SQL policies
+- Action required: apply Migration 066 in Supabase SQL Editor, then create `client-uploads` Storage bucket per README step 3
 
 ### v1.1.02 (August 2026)
 - Feat: ManagerReviewPage full self-hosted implementation — Supabase-direct BAS summary + workpaper rows; approve advances to client_confirm; reject resets bas_draft + returns upstream

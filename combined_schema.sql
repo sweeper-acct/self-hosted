@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-13T11:30:29Z
+-- Sweeper combined schema — generated 2026-08-13T11:51:17Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3357,4 +3357,67 @@ $$;
 
 REVOKE EXECUTE ON FUNCTION public.delete_client_query_document(TEXT, TEXT, UUID) FROM PUBLIC;
 GRANT  EXECUTE ON FUNCTION public.delete_client_query_document(TEXT, TEXT, UUID) TO anon, authenticated;
+
+
+-- ── 20260101000066_selfhosted_client_upload.sql ───────────────────────────────────
+-- Migration 066: self-hosted client query evidence upload RPC
+-- Records client-uploaded evidence in case_documents after validating the token.
+-- Called from ClientQueryPage in self-hosted mode (anon key, no backend server).
+-- The physical file is uploaded directly to the 'client-uploads' Storage bucket by the
+-- frontend using the Supabase anon key; this function records the case_documents metadata.
+--
+-- Setup required in Supabase Dashboard → Storage:
+--   Create bucket: client-uploads (private)
+--   Add policy:  INSERT to anon — no restrictions (token validation is in this function)
+--   Add policy:  SELECT to anon — WHERE name LIKE '{token}/%' (token-scoped read for deletion)
+
+CREATE OR REPLACE FUNCTION public.record_client_query_upload(
+  p_token        TEXT,
+  p_password     TEXT,
+  p_query_id     UUID,
+  p_file_name    TEXT,
+  p_storage_path TEXT
+)
+RETURNS UUID
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_link   client_query_links%ROWTYPE;
+  v_firm_id UUID;
+  v_doc_id  UUID;
+BEGIN
+  -- Validate token + password (must be active, not expired)
+  SELECT * INTO v_link
+  FROM client_query_links
+  WHERE token      = p_token
+    AND password   = p_password
+    AND expires_at > NOW();
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Invalid token or link expired';
+  END IF;
+
+  -- Verify query belongs to this link
+  IF NOT EXISTS (
+    SELECT 1 FROM queries WHERE id = p_query_id AND link_id = v_link.id
+  ) THEN
+    RAISE EXCEPTION 'Query not found for this link';
+  END IF;
+
+  -- Get firm_id from the case
+  SELECT firm_id INTO v_firm_id FROM cases WHERE id = v_link.case_id;
+
+  -- Insert document record (uploaded_by intentionally NULL — client has no user account)
+  INSERT INTO case_documents (
+    case_id, firm_id, query_id, document_type, file_name, storage_path, note
+  ) VALUES (
+    v_link.case_id, v_firm_id, p_query_id, 'client_upload', p_file_name, p_storage_path,
+    'Uploaded by client'
+  )
+  RETURNING id INTO v_doc_id;
+
+  RETURN v_doc_id;
+END;
+$$;
+
+REVOKE EXECUTE ON FUNCTION public.record_client_query_upload(TEXT, TEXT, UUID, TEXT, TEXT) FROM PUBLIC;
+GRANT  EXECUTE ON FUNCTION public.record_client_query_upload(TEXT, TEXT, UUID, TEXT, TEXT) TO anon, authenticated;
 
