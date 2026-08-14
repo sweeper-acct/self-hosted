@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.16  
+> **Version**: v1.1.17  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,9 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.17 (August 2026)
+- Fixed: MCP extract calls returned 401 "Invalid MCP key format" — `X-MCP-Key` header was missing from the nginx self-hosted MCP proxy location block; key placeholder `SWEEPER_MCP_KEY_VALUE` was never added to `nginx.selfhosted.conf`
 
 ### v1.1.16 (August 2026)
 - Fixed: `tasks` insert in self-hosted new-folder flow included `team_id` column which does not exist in the tasks schema — caused 400 PGRST204 error when creating a new folder from ClientDetailPage
