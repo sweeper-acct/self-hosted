@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.17  
+> **Version**: v1.1.18  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,29 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.18 (August 2026)
+- Fixed: duplicate "Extract" entries in Folder Steps when case had two `extract` tasks — `TaskList` now deduplicates by `task_type` before rendering
+- Fixed: `handleUploadAndExtract` (upload new PDF button) used direct `tasks` INSERT which bypassed idempotency checks; changed to call `advance_to_validate_selfhosted` RPC (same as Continue button)
+- Fixed: `advance_to_validate_selfhosted` RPC `ON CONFLICT DO NOTHING` did not prevent duplicate `extract` tasks (partial unique index only covers non-complete statuses); replaced with explicit `IF NOT EXISTS` check
+
+  **DB fix required for existing installations** — re-run `advance_to_validate_selfhosted` function in Supabase SQL Editor:
+  ```sql
+  -- Copy the full CREATE OR REPLACE FUNCTION advance_to_validate_selfhosted ...
+  -- from combined_schema.sql lines 3608–3699 and paste into SQL Editor
+  ```
+  Then clean up any duplicate extract tasks:
+  ```sql
+  -- List duplicates
+  SELECT case_id, COUNT(*) FROM tasks WHERE task_type = 'extract' GROUP BY case_id HAVING COUNT(*) > 1;
+  -- Delete extra (keep the one with the latest completed_at)
+  DELETE FROM tasks WHERE id IN (
+    SELECT id FROM (
+      SELECT id, ROW_NUMBER() OVER (PARTITION BY case_id ORDER BY completed_at DESC) AS rn
+      FROM tasks WHERE task_type = 'extract'
+    ) sub WHERE rn > 1
+  );
+  ```
 
 ### v1.1.17 (August 2026)
 - Fixed: MCP extract calls returned 401 "Invalid MCP key format" — `X-MCP-Key` header was missing from the nginx self-hosted MCP proxy location block; key placeholder `SWEEPER_MCP_KEY_VALUE` was never added to `nginx.selfhosted.conf`
