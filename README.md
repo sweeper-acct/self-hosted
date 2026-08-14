@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.09  
+> **Version**: v1.1.14  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.14 (August 2026)
+- Fixed: `combined_schema.sql` idempotency — all CREATE TABLE / INDEX / TRIGGER now use IF NOT EXISTS / OR REPLACE; safe to re-run after a partial-run failure without DROP TABLE
+- Fixed: `ADD COLUMN engagement_date` missing IF NOT EXISTS guard
+- Fixed: `ADD CONSTRAINT chk_activated_at_required` missing preceding DROP IF EXISTS
+- Fixed: incorrect header comment that claimed schema was already safe to re-run
 
 ### v1.1.04 (August 2026)
 - Fixed: client query file uploads — `record_client_query_upload` RPC now formally in Migration 066 (was missing from all prior migrations; uploads silently failed in self-hosted mode)
