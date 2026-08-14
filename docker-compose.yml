@@ -1,4 +1,4 @@
-# Sweeper Self-Hosted — docker-compose.yml
+﻿# Sweeper Self-Hosted 鈥?docker-compose.yml
 # Full documentation: https://enterprise.sweeper-acct.com.au
 #
 # Prerequisites:
@@ -18,18 +18,19 @@
 
 services:
 
-  # ─── Frontend ──────────────────────────────────────────────────────────────
+  # 鈹€鈹€鈹€ Frontend 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
   # Pre-built image from Docker Hub. Supabase URL and API endpoint are injected
-  # at container start — no local build required.
+  # at container start 鈥?no local build required.
   # AI processing is handled by Sweeper's backend via your MCP API key.
   frontend:
-    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.1.04}
+    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.1.15}
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-3000}:8080"
     environment:
       VITE_SUPABASE_URL:      ${VITE_SUPABASE_URL}
       VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+      SWEEPER_MCP_KEY:        ${SWEEPER_MCP_KEY}
       VITE_MCP_KEY:           ${SWEEPER_MCP_KEY}
       VITE_MCP_ENDPOINT:      ${SWEEPER_MCP_ENDPOINT:-https://sweeper-production-c279.up.railway.app}
       VITE_APP_NAME:          ${VITE_APP_NAME:-Sweeper}
