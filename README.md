@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.15  
+> **Version**: v1.1.16  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,12 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.16 (August 2026)
+- Fixed: `tasks` insert in self-hosted new-folder flow included `team_id` column which does not exist in the tasks schema — caused 400 PGRST204 error when creating a new folder from ClientDetailPage
+
+### v1.1.15 (August 2026)
+- Fixed: MCP key not detected on Modules page — `docker-compose.yml` only mapped key as `VITE_MCP_KEY` but `docker-entrypoint.sh` reads `SWEEPER_MCP_KEY`; both names now mapped; entrypoint falls back to `VITE_MCP_KEY` if `SWEEPER_MCP_KEY` absent
 
 ### v1.1.14 (August 2026)
 - Fixed: `combined_schema.sql` idempotency — all CREATE TABLE / INDEX / TRIGGER now use IF NOT EXISTS / OR REPLACE; safe to re-run after a partial-run failure without DROP TABLE
