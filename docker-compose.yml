@@ -1,4 +1,4 @@
-﻿# Sweeper Self-Hosted 鈥?docker-compose.yml
+# Sweeper Self-Hosted �?docker-compose.yml
 # Full documentation: https://enterprise.sweeper-acct.com.au
 #
 # Prerequisites:
@@ -18,12 +18,12 @@
 
 services:
 
-  # 鈹€鈹€鈹€ Frontend 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
+  # ─── Frontend ──────────────────────────────────────────────────────────────
   # Pre-built image from Docker Hub. Supabase URL and API endpoint are injected
-  # at container start 鈥?no local build required.
+  # at container start �?no local build required.
   # AI processing is handled by Sweeper's backend via your MCP API key.
   frontend:
-    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.1.26}
+    image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.1.27}
     restart: unless-stopped
     ports:
       - "${FRONTEND_PORT:-3000}:8080"
