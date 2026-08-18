@@ -1,4 +1,4 @@
-# Sweeper Self-Hosted �?docker-compose.yml
+# Sweeper Self-Hosted -- docker-compose.yml
 # Full documentation: https://enterprise.sweeper-acct.com.au
 #
 # Prerequisites:
@@ -14,13 +14,14 @@
 #
 # Upgrading:
 #   Set SWEEPER_VERSION=x.y.z in .env, then:
-#   docker compose pull && docker compose up -d
+#   docker compose pull
+#   docker compose up -d
 
 services:
 
-  # ─── Frontend ──────────────────────────────────────────────────────────────
+  # --- Frontend ---
   # Pre-built image from Docker Hub. Supabase URL and API endpoint are injected
-  # at container start �?no local build required.
+  # at container start -- no local build required.
   # AI processing is handled by Sweeper's backend via your MCP API key.
   frontend:
     image: sweeper425/sweeper-frontend:${SWEEPER_VERSION:-1.1.27}
