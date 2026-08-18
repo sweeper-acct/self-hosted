@@ -1,6 +1,6 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.18  
+> **Version**: v1.1.26  
 > AI Workforce OS for Australian accounting firms 鈥?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,9 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.26 (August 2026)
+- Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows — panel now updates live as edits are made, without requiring submit
 
 ### v1.1.18 (August 2026)
 - Fixed: duplicate "Extract" entries in Folder Steps when case had two `extract` tasks — `TaskList` now deduplicates by `task_type` before rendering
