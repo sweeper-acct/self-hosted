@@ -1,7 +1,7 @@
 # Sweeper Self-Hosted
 
 > **Version**: v1.1.27  
-> AI Workforce OS for Australian accounting firms â€?self-hosted edition.
+> AI Workforce OS for Australian accounting firms ï¿½?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
 > Register at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au)
@@ -11,10 +11,10 @@
 ## What you get
 
 - Sweeper frontend running on your own server
-- All client data, workpapers, and audit logs stay within your own Supabase project ¡ª Sweeper never holds a copy
+- All client data, workpapers, and audit logs stay within your own Supabase project ï¿½ï¿½ Sweeper never holds a copy
 - AI processing (data normalization, workpaper preparation, client collaboration, audit trails, and professional sign-off) via your Sweeper MCP API key
-- You own your data ¡ª build downstream integrations (Xero, MYOB, QuickBooks) directly from your Supabase Storage using any tool you choose
-- Upgrade by pulling the latest Docker image ¡ª no rebuild required
+- You own your data ï¿½ï¿½ build downstream integrations (Xero, MYOB, QuickBooks) directly from your Supabase Storage using any tool you choose
+- Upgrade by pulling the latest Docker image ï¿½ï¿½ no rebuild required
 
 ## Architecture
 
@@ -38,28 +38,28 @@ Your downstream integrations (Xero, MYOB, QuickBooks, etc.)
   then push to any accounting software using your own credentials.
 ```
 
-The frontend image is public on Docker Hub ¡ª **no Docker Hub login required**.
+The frontend image is public on Docker Hub ï¿½ï¿½ **no Docker Hub login required**.
 
 ---
 
 ## Your data
 
-All client data, workpapers, and audit logs are written to **your own Supabase project** ¡ª Sweeper never holds a copy.
+All client data, workpapers, and audit logs are written to **your own Supabase project** ï¿½ï¿½ Sweeper never holds a copy.
 
 Once a BAS/GST folder is certified, the output files sit in your own Supabase Storage:
 
 ```
 {firm_id}/{client_id}/{period}/
-  final/     ¡û BAS summary JSON (G1, G11, 1A, 1B, 8A) ¡ª written after BAS draft
-  reviewed/  ¡û GST-coded transaction workpaper CSV ¡ª human-certified by Senior
-  archived/  ¡û Immutable copy written after Partner certifies
+  final/     ï¿½ï¿½ BAS summary JSON (G1, G11, 1A, 1B, 8A) ï¿½ï¿½ written after BAS draft
+  reviewed/  ï¿½ï¿½ GST-coded transaction workpaper CSV ï¿½ï¿½ human-certified by Senior
+  archived/  ï¿½ï¿½ Immutable copy written after Partner certifies
 ```
 
-You can query these files directly using the Supabase client, the Supabase dashboard, or any PostgreSQL-compatible tool. Build downstream integrations with Xero, MYOB, QuickBooks, or any other platform using your own credentials and your own schedule ¡ª no dependency on Sweeper for that step.
+You can query these files directly using the Supabase client, the Supabase dashboard, or any PostgreSQL-compatible tool. Build downstream integrations with Xero, MYOB, QuickBooks, or any other platform using your own credentials and your own schedule ï¿½ï¿½ no dependency on Sweeper for that step.
 
 ---
 
-The frontend image is public on Docker Hub â€?**no Docker Hub login required**.  
+The frontend image is public on Docker Hub ï¿½?**no Docker Hub login required**.  
 Your Supabase URL and MCP endpoint are injected at container start via `window.__SWEEPER__` (no rebuild needed on config change).
 
 ---
@@ -79,9 +79,9 @@ Your Supabase URL and MCP endpoint are injected at container start via `window._
 
 ### 1. Create a Supabase project
 
-Create a free project at [supabase.com](https://supabase.com) â€?choose **ap-southeast-2 (Sydney)** region.
+Create a free project at [supabase.com](https://supabase.com) ï¿½?choose **ap-southeast-2 (Sydney)** region.
 
-From **Settings â†?API**, copy:
+From **Settings ï¿½?API**, copy:
 - Project URL
 - `anon` / public key
 
@@ -90,22 +90,22 @@ From **Settings â†?API**, copy:
 In Supabase **SQL Editor**, paste and run `combined_schema.sql` (included in this release).
 
 ```
-Supabase Dashboard â†?SQL Editor â†?New query â†?paste combined_schema.sql â†?Run
+Supabase Dashboard ï¿½?SQL Editor ï¿½?New query ï¿½?paste combined_schema.sql ï¿½?Run
 ```
 
 ### 3. Create the Storage buckets
 
-Two buckets are required. In Supabase **Dashboard ¡ú Storage ¡ú New bucket**, create each:
+Two buckets are required. In Supabase **Dashboard ï¿½ï¿½ Storage ï¿½ï¿½ New bucket**, create each:
 
-**Bucket 1 ¡ª workpaper files** (auto-created on first registration, but create manually if registering outside the UI):
-- **Name:** `firm-{your-firm-uuid}` ¡ª replace with your firm's UUID from the `firms` table after registration
+**Bucket 1 ï¿½ï¿½ workpaper files** (auto-created on first registration, but create manually if registering outside the UI):
+- **Name:** `firm-{your-firm-uuid}` ï¿½ï¿½ replace with your firm's UUID from the `firms` table after registration
 - **Public:** off (private)
 
-**Bucket 2 ¡ª client query attachments** (must be created manually before clients can attach receipts):
+**Bucket 2 ï¿½ï¿½ client query attachments** (must be created manually before clients can attach receipts):
 - **Name:** `client-uploads`
 - **Public:** off (private)
 
-After creating `client-uploads`, add Storage policies in **Dashboard ¡ú Storage ¡ú Policies ¡ú client-uploads**:
+After creating `client-uploads`, add Storage policies in **Dashboard ï¿½ï¿½ Storage ï¿½ï¿½ Policies ï¿½ï¿½ client-uploads**:
 
 | Policy | Allowed roles |
 |---|---|
@@ -127,14 +127,14 @@ CREATE POLICY "client_uploads_delete" ON storage.objects FOR DELETE
 
 This step injects `firm_id`, `team_id`, and `user_role` into every JWT so the backend can authenticate requests without an extra database round-trip.
 
-In your Supabase project â†?**Authentication â†?Auth Hooks**:
+In your Supabase project ï¿½?**Authentication ï¿½?Auth Hooks**:
 
 1. Click **Add new hook**
 2. Hook type: **Customize Access Token**
 3. Function name: `custom_jwt_hook`
 4. Click **Save**
 
-> **Optional but recommended.** Without the hook, authentication still works â€?the backend falls back to a database lookup on every request. With the hook, claims are in the JWT itself (faster, fewer round-trips).
+> **Optional but recommended.** Without the hook, authentication still works ï¿½?the backend falls back to a database lookup on every request. With the hook, claims are in the JWT itself (faster, fewer round-trips).
 
 ### 5. Configure environment
 
@@ -149,11 +149,11 @@ Fill in:
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SWEEPER_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
-| `SWEEPER_VERSION` | `1.0.20` (or leave default) |
+| `SWEEPER_VERSION` | `1.1.41` (or leave default) |
 
 ### 6. Configure Supabase Auth redirect URLs
 
-In your Supabase project â†?**Authentication â†?URL Configuration**:
+In your Supabase project ï¿½?**Authentication ï¿½?URL Configuration**:
 - **Site URL**: `http://localhost:3000` (or your domain)
 - **Redirect URLs**: `http://localhost:3000/**`
 
@@ -172,7 +172,7 @@ NAME        STATUS
 frontend    running
 ```
 
-Open `http://localhost:3000` â€?the registration page creates the first Owner account and firm.
+Open `http://localhost:3000` ï¿½?the registration page creates the first Owner account and firm.
 
 ---
 
@@ -201,7 +201,7 @@ Point your domain's A record to your server IP. Enable **Full (strict)** SSL mod
 ## Upgrading
 
 ```bash
-# 1. Apply the new combined_schema.sql in Supabase SQL Editor (idempotent â€?safe to re-run)
+# 1. Apply the new combined_schema.sql in Supabase SQL Editor (idempotent ï¿½?safe to re-run)
 
 # 2. Update SWEEPER_VERSION in .env
 
@@ -218,10 +218,10 @@ docker compose up -d --force-recreate
 |---|---|---|
 | `VITE_SUPABASE_URL` | Yes | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
-| `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au â€?enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
+| `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au ï¿½?enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.0.56`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.1.41`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -240,7 +240,7 @@ A common pattern is to use email sub-addressing (supported by most providers inc
 | Partner (own team) | `principal+partner@firm.com.au` |
 | Junior | `junior@firm.com.au` |
 
-Both `principal@firm.com.au` and `principal+partner@firm.com.au` deliver to the same inbox â€?Supabase treats them as separate accounts.
+Both `principal@firm.com.au` and `principal+partner@firm.com.au` deliver to the same inbox ï¿½?Supabase treats them as separate accounts.
 
 ---
 
@@ -249,7 +249,7 @@ Both `principal@firm.com.au` and `principal+partner@firm.com.au` deliver to the 
 **Frontend shows blank page or "missing Supabase URL"**
 
 Check that `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` are set in `.env`.  
-The frontend reads these at container start â€?no rebuild needed. After changing `.env`:
+The frontend reads these at container start ï¿½?no rebuild needed. After changing `.env`:
 
 ```bash
 docker compose up -d frontend
@@ -269,24 +269,24 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ---
 
-*Sweeper is developed and maintained by PIN ME PTY LTD â€?ABN 94 635 327 365*
+*Sweeper is developed and maintained by PIN ME PTY LTD ï¿½?ABN 94 635 327 365*
 
 ---
 
 ## Changelog
 
 ### v1.1.26 (August 2026)
-- Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows ¡ª panel now updates live as edits are made, without requiring submit
+- Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows ï¿½ï¿½ panel now updates live as edits are made, without requiring submit
 
 ### v1.1.18 (August 2026)
-- Fixed: duplicate "Extract" entries in Folder Steps when case had two `extract` tasks ¡ª `TaskList` now deduplicates by `task_type` before rendering
+- Fixed: duplicate "Extract" entries in Folder Steps when case had two `extract` tasks ï¿½ï¿½ `TaskList` now deduplicates by `task_type` before rendering
 - Fixed: `handleUploadAndExtract` (upload new PDF button) used direct `tasks` INSERT which bypassed idempotency checks; changed to call `advance_to_validate_selfhosted` RPC (same as Continue button)
 - Fixed: `advance_to_validate_selfhosted` RPC `ON CONFLICT DO NOTHING` did not prevent duplicate `extract` tasks (partial unique index only covers non-complete statuses); replaced with explicit `IF NOT EXISTS` check
 
-  **DB fix required for existing installations** ¡ª re-run `advance_to_validate_selfhosted` function in Supabase SQL Editor:
+  **DB fix required for existing installations** ï¿½ï¿½ re-run `advance_to_validate_selfhosted` function in Supabase SQL Editor:
   ```sql
   -- Copy the full CREATE OR REPLACE FUNCTION advance_to_validate_selfhosted ...
-  -- from combined_schema.sql lines 3608¨C3699 and paste into SQL Editor
+  -- from combined_schema.sql lines 3608ï¿½C3699 and paste into SQL Editor
   ```
   Then clean up any duplicate extract tasks:
   ```sql
@@ -302,78 +302,78 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
   ```
 
 ### v1.1.17 (August 2026)
-- Fixed: MCP extract calls returned 401 "Invalid MCP key format" ¡ª `X-MCP-Key` header was missing from the nginx self-hosted MCP proxy location block; key placeholder `SWEEPER_MCP_KEY_VALUE` was never added to `nginx.selfhosted.conf`
+- Fixed: MCP extract calls returned 401 "Invalid MCP key format" ï¿½ï¿½ `X-MCP-Key` header was missing from the nginx self-hosted MCP proxy location block; key placeholder `SWEEPER_MCP_KEY_VALUE` was never added to `nginx.selfhosted.conf`
 
 ### v1.1.16 (August 2026)
-- Fixed: `tasks` insert in self-hosted new-folder flow included `team_id` column which does not exist in the tasks schema ¡ª caused 400 PGRST204 error when creating a new folder from ClientDetailPage
+- Fixed: `tasks` insert in self-hosted new-folder flow included `team_id` column which does not exist in the tasks schema ï¿½ï¿½ caused 400 PGRST204 error when creating a new folder from ClientDetailPage
 
 ### v1.1.15 (August 2026)
-- Fixed: MCP key not detected on Modules page ¡ª `docker-compose.yml` only mapped key as `VITE_MCP_KEY` but `docker-entrypoint.sh` reads `SWEEPER_MCP_KEY`; both names now mapped; entrypoint falls back to `VITE_MCP_KEY` if `SWEEPER_MCP_KEY` absent
+- Fixed: MCP key not detected on Modules page ï¿½ï¿½ `docker-compose.yml` only mapped key as `VITE_MCP_KEY` but `docker-entrypoint.sh` reads `SWEEPER_MCP_KEY`; both names now mapped; entrypoint falls back to `VITE_MCP_KEY` if `SWEEPER_MCP_KEY` absent
 
 ### v1.1.14 (August 2026)
-- Fixed: `combined_schema.sql` idempotency ¡ª all CREATE TABLE / INDEX / TRIGGER now use IF NOT EXISTS / OR REPLACE; safe to re-run after a partial-run failure without DROP TABLE
+- Fixed: `combined_schema.sql` idempotency ï¿½ï¿½ all CREATE TABLE / INDEX / TRIGGER now use IF NOT EXISTS / OR REPLACE; safe to re-run after a partial-run failure without DROP TABLE
 - Fixed: `ADD COLUMN engagement_date` missing IF NOT EXISTS guard
 - Fixed: `ADD CONSTRAINT chk_activated_at_required` missing preceding DROP IF EXISTS
 - Fixed: incorrect header comment that claimed schema was already safe to re-run
 
 ### v1.1.04 (August 2026)
-- Fixed: client query file uploads ¡ª `record_client_query_upload` RPC now formally in Migration 066 (was missing from all prior migrations; uploads silently failed in self-hosted mode)
+- Fixed: client query file uploads ï¿½ï¿½ `record_client_query_upload` RPC now formally in Migration 066 (was missing from all prior migrations; uploads silently failed in self-hosted mode)
 - Fixed: `document_type` for client-uploaded attachments changed from `"receipt"` to `"client_upload"` (SaaS + self-hosted); existing uploads are unaffected
-- Fixed: Supporting Evidence download URL ¡ª removed dead `client-uploads` bucket check in `get_document_download_url`; always uses `firm-{uuid}` bucket for SaaS mode
-- Fixed: README Storage bucket setup ¡ª replaced incorrect `firm-files` with correct `firm-{uuid}` (auto-created by `register_firm()`) and added `client-uploads` bucket setup with SQL policies
+- Fixed: Supporting Evidence download URL ï¿½ï¿½ removed dead `client-uploads` bucket check in `get_document_download_url`; always uses `firm-{uuid}` bucket for SaaS mode
+- Fixed: README Storage bucket setup ï¿½ï¿½ replaced incorrect `firm-files` with correct `firm-{uuid}` (auto-created by `register_firm()`) and added `client-uploads` bucket setup with SQL policies
 - Action required: apply Migration 066 in Supabase SQL Editor, then create `client-uploads` Storage bucket per README step 3
 
 ### v1.1.02 (August 2026)
-- Feat: ManagerReviewPage full self-hosted implementation ¡ª Supabase-direct BAS summary + workpaper rows; approve advances to client_confirm; reject resets bas_draft + returns upstream
-- Feat: ClientConfirmPage full self-hosted implementation ¡ª Supabase-direct BAS summary + workpaper rows; confirm advances to certify; send back returns to manager_review
-- Feat: CertifyPage full self-hosted implementation ¡ª reads final/ JSON via signed URL; certify copies final/ to archived/ in Storage + archives case; return for revision returns to client_confirm
-- Full Partner workflow chain now operational in self-hosted mode: validate_gst ¡ú senior_review ¡ú senior_bas_review ¡ú manager_review ¡ú client_confirm ¡ú certify ¡ú archived
+- Feat: ManagerReviewPage full self-hosted implementation ï¿½ï¿½ Supabase-direct BAS summary + workpaper rows; approve advances to client_confirm; reject resets bas_draft + returns upstream
+- Feat: ClientConfirmPage full self-hosted implementation ï¿½ï¿½ Supabase-direct BAS summary + workpaper rows; confirm advances to certify; send back returns to manager_review
+- Feat: CertifyPage full self-hosted implementation ï¿½ï¿½ reads final/ JSON via signed URL; certify copies final/ to archived/ in Storage + archives case; return for revision returns to client_confirm
+- Full Partner workflow chain now operational in self-hosted mode: validate_gst ï¿½ï¿½ senior_review ï¿½ï¿½ senior_bas_review ï¿½ï¿½ manager_review ï¿½ï¿½ client_confirm ï¿½ï¿½ certify ï¿½ï¿½ archived
 
 ### v1.0.83 (August 2026)
-- Fix: auth helpers now read sub claim from both `request.jwt.claim.sub` and `request.jwt.claims` GUC paths ¡ª fixes client list showing empty after registration
+- Fix: auth helpers now read sub claim from both `request.jwt.claim.sub` and `request.jwt.claims` GUC paths ï¿½ï¿½ fixes client list showing empty after registration
 - Fix: Junior auto-assigns themselves when registering a new client
 
 ### v1.0.82 (August 2026)
-- Fix: client registration 403 ¡ª self-hosted now uses `create_client_selfhosted` SECURITY DEFINER RPC, bypassing RLS JWT claim dependency; requires applying the RPC function to your Supabase SQL Editor (see bootstrap instructions)
+- Fix: client registration 403 ï¿½ï¿½ self-hosted now uses `create_client_selfhosted` SECURITY DEFINER RPC, bypassing RLS JWT claim dependency; requires applying the RPC function to your Supabase SQL Editor (see bootstrap instructions)
 
 ### v1.0.81 (August 2026)
 
-- Fixed: CLIENT REPLY attachment 404 (NoSuchKey) ¡ª backend `get_document_download_url` now routes to `client-uploads` bucket for client query attachments (paths starting with `evidence/query/`); previously always used `firm-{uuid}` bucket
+- Fixed: CLIENT REPLY attachment 404 (NoSuchKey) ï¿½ï¿½ backend `get_document_download_url` now routes to `client-uploads` bucket for client query attachments (paths starting with `evidence/query/`); previously always used `firm-{uuid}` bucket
 - Fixed: `storage_path` field now included in `case_documents` embedded join so frontend `openDocUrl` receives it and picks the correct bucket without falling back to SaaS API
 
 ### v1.0.79 (August 2026)
 
-- Fixed: Supabase Storage bucket name corrected for all self-hosted upload/download paths ¡ª was incorrectly using `firm-files` instead of `firm-{uuid}`; affects validated/processed/reviewed CSV uploads in Validate GST and Senior Review pages
-- Fixed: Attachment files in CLIENT REPLY column now open correctly ¡ª removed `noreferrer` from `window.open()` so the window reference is non-null and the signed URL is correctly applied
-- Fixed: Supporting Evidence delete returns 403 for client-uploaded files ¡ª files uploaded by client (no user account, `uploaded_by=NULL`) can now be deleted by any staff member
+- Fixed: Supabase Storage bucket name corrected for all self-hosted upload/download paths ï¿½ï¿½ was incorrectly using `firm-files` instead of `firm-{uuid}`; affects validated/processed/reviewed CSV uploads in Validate GST and Senior Review pages
+- Fixed: Attachment files in CLIENT REPLY column now open correctly ï¿½ï¿½ removed `noreferrer` from `window.open()` so the window reference is non-null and the signed URL is correctly applied
+- Fixed: Supporting Evidence delete returns 403 for client-uploaded files ï¿½ï¿½ files uploaded by client (no user account, `uploaded_by=NULL`) can now be deleted by any staff member
 
 ### v1.0.76 (August 2026)
 
-- Fixed: CLIENT REPLY attachment files now open correctly in self-hosted ¡ª bucket detection logic corrected for self-hosted upload path format (`{token}/{queryId}/...` was being routed to wrong bucket)
+- Fixed: CLIENT REPLY attachment files now open correctly in self-hosted ï¿½ï¿½ bucket detection logic corrected for self-hosted upload path format (`{token}/{queryId}/...` was being routed to wrong bucket)
 
 ### v1.0.74 (August 2026)
 
-- Fixed: CLIENT REPLY column ¡ª clicking ?? attachment icon now opens file correctly in self-hosted (uses Supabase Storage signed URL; previously called SaaS API which silently failed)
-- Fixed: QUERY checkbox column now visible on all 4 workpaper tabs (All Transactions / Ready for GST / Non-GST / Review Required), not just the Review Required tab ¡ª Junior and Senior can send client queries from any sheet
+- Fixed: CLIENT REPLY column ï¿½ï¿½ clicking ?? attachment icon now opens file correctly in self-hosted (uses Supabase Storage signed URL; previously called SaaS API which silently failed)
+- Fixed: QUERY checkbox column now visible on all 4 workpaper tabs (All Transactions / Ready for GST / Non-GST / Review Required), not just the Review Required tab ï¿½ï¿½ Junior and Senior can send client queries from any sheet
 - Fixed: "Send query" toolbar now appears on all tabs after clicking ? re-query button
 - Improved: ? re-query button uses white background + indigo border (better contrast against amber Review Required row backgrounds)
 
 ### v1.0.73 (August 2026)
 
-- Added: Case Log now shows audit trail entries in self-hosted ¡ª workflow steps (extraction, validate extraction, GST coding, validate GST) now write to the `case_log` table automatically; Case Log page displays all entries with client/period/actor/action filters
+- Added: Case Log now shows audit trail entries in self-hosted ï¿½ï¿½ workflow steps (extraction, validate extraction, GST coding, validate GST) now write to the `case_log` table automatically; Case Log page displays all entries with client/period/actor/action filters
 
 ### v1.0.72 (August 2026)
 
-- Added: Remove (¡Á) button on each file chip in client query page ¡ª click to remove a wrongly attached file; works for both error-state files (never uploaded) and successfully uploaded files
+- Added: Remove (ï¿½ï¿½) button on each file chip in client query page ï¿½ï¿½ click to remove a wrongly attached file; works for both error-state files (never uploaded) and successfully uploaded files
 
 ### v1.0.71 (August 2026)
 
-- Added: Client query file attachments in self-hosted ¡ª clients can attach receipts/invoices (jpg, png, pdf, xlsx) on the query page; files go to a dedicated `client-uploads` Storage bucket; a new SECURITY DEFINER RPC validates the token before recording in `case_documents`
+- Added: Client query file attachments in self-hosted ï¿½ï¿½ clients can attach receipts/invoices (jpg, png, pdf, xlsx) on the query page; files go to a dedicated `client-uploads` Storage bucket; a new SECURITY DEFINER RPC validates the token before recording in `case_documents`
 - Note: run the updated `combined_schema.sql` to create the `client-uploads` bucket and policies
 
 ### v1.0.70 (August 2026)
 
-- Fixed: Generate link (client query) now correctly reads `firm_id` from JWT payload in self-hosted mode ¡ª `app_metadata.firm_id` was always undefined when using `custom_jwt_hook` (top-level JWT claims), causing RLS violation on insert
+- Fixed: Generate link (client query) now correctly reads `firm_id` from JWT payload in self-hosted mode ï¿½ï¿½ `app_metadata.firm_id` was always undefined when using `custom_jwt_hook` (top-level JWT claims), causing RLS violation on insert
 
 ### v1.0.69 (August 2026)
 
@@ -382,52 +382,52 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ### v1.0.68 (August 2026)
 
-- Added: Self-hosted client query ¡ª Senior can generate query links directly via Supabase (no SaaS backend required)
+- Added: Self-hosted client query ï¿½ï¿½ Senior can generate query links directly via Supabase (no SaaS backend required)
 - Added: Three SECURITY DEFINER RPCs in combined_schema.sql: `get_query_link_by_token`, `get_queries_by_link`, `submit_client_query_answers`
 - Fixed: QUERY checkbox and toolbar now enabled in self-hosted mode (previously hidden)
 - Note: apply combined_schema.sql RPCs to your Supabase instance (SQL Editor) before using this feature
 
 ### v1.0.67 (August 2026)
 
-- Fixed: Query checkbox column now visible on all workpaper tabs (not just Review Required tab) in SaaS mode ¡ª Senior can send client queries from any sheet
+- Fixed: Query checkbox column now visible on all workpaper tabs (not just Review Required tab) in SaaS mode ï¿½ï¿½ Senior can send client queries from any sheet
 - Fixed: CLIENT REPLY column now correctly displays client answers in SeniorReviewPage when queries have been answered
 - Improved: Query creation toolbar hidden in self-hosted (client query requires SaaS backend)
 
 ### v1.0.57 (August 2026)
 
-- Fixed: MCP endpoint URL now dynamically injected into nginx Content-Security-Policy at container start ¡ª works for any configured `SWEEPER_MCP_ENDPOINT`, including Railway direct URLs (`*.up.railway.app`)
+- Fixed: MCP endpoint URL now dynamically injected into nginx Content-Security-Policy at container start ï¿½ï¿½ works for any configured `SWEEPER_MCP_ENDPOINT`, including Railway direct URLs (`*.up.railway.app`)
 - Previously: CSP was hardcoded to `enterprise.sweeper-acct.com.au` only, blocking extraction calls to the Railway backend
 
 ### v1.0.56 (August 2026)
 
-- Fixed: "Continue" button now appears correctly when an extract task already exists but `validate_extraction` has not yet been created ¡ª previously the button was hidden once any extract task existed, even if extraction had never completed successfully
-- Fixed: clicking "Continue" no longer fails when an extract task already exists in the database ¡ª duplicate insert is now skipped safely
+- Fixed: "Continue" button now appears correctly when an extract task already exists but `validate_extraction` has not yet been created ï¿½ï¿½ previously the button was hidden once any extract task existed, even if extraction had never completed successfully
+- Fixed: clicking "Continue" no longer fails when an extract task already exists in the database ï¿½ï¿½ duplicate insert is now skipped safely
 
 ### v1.0.55 (August 2026)
 
-- Fixed: MCP extract stub data ¡ª Orvexa API key was not passed to extraction service, causing all extractions to return fixed test rows (including "XYZ Pty Ltd"). Real PDF extraction now works correctly.
-- Fixed: validate_gst submit now respects approval chain ¡ª firms with Senior review gate create `senior_review` task (not `bas_draft`); minimal-chain firms continue to promote directly to reviewed/
+- Fixed: MCP extract stub data ï¿½ï¿½ Orvexa API key was not passed to extraction service, causing all extractions to return fixed test rows (including "XYZ Pty Ltd"). Real PDF extraction now works correctly.
+- Fixed: validate_gst submit now respects approval chain ï¿½ï¿½ firms with Senior review gate create `senior_review` task (not `bas_draft`); minimal-chain firms continue to promote directly to reviewed/
 - Fixed: validate_gst submit writes Junior edits back to processed/ for full-chain firms; Senior then promotes to reviewed/ on approve
 
 ### v1.0.54 (August 2026)
 
-- Added: ValidatePage workpaper now fully functional in self-hosted ¡ª Junior can view, edit, and submit the extracted transaction table (validate_extraction) and GST-coded workpaper (validate_gst) directly from Supabase Storage
-- Added: validate_extraction submit promotes extracted CSV ¡ú validated CSV in Storage, creates next workflow tasks (gst_prep ¡ú waiting for BASAgent, validate_gst ¡ú pending)
-- Added: validate_gst submit calls MCP classify for GST coding, promotes validated ¡ú processed CSV, creates senior_review or bas_draft task based on approval chain
+- Added: ValidatePage workpaper now fully functional in self-hosted ï¿½ï¿½ Junior can view, edit, and submit the extracted transaction table (validate_extraction) and GST-coded workpaper (validate_gst) directly from Supabase Storage
+- Added: validate_extraction submit promotes extracted CSV ï¿½ï¿½ validated CSV in Storage, creates next workflow tasks (gst_prep ï¿½ï¿½ waiting for BASAgent, validate_gst ï¿½ï¿½ pending)
+- Added: validate_gst submit calls MCP classify for GST coding, promotes validated ï¿½ï¿½ processed CSV, creates senior_review or bas_draft task based on approval chain
 
 ### v1.0.53 (August 2026)
 
-- Fixed: Continue button now sets `completed_at` on the extract task ¡ª satisfies `chk_completed_at_consistency` constraint
+- Fixed: Continue button now sets `completed_at` on the extract task ï¿½ï¿½ satisfies `chk_completed_at_consistency` constraint
 
 ### v1.0.52 (August 2026)
 
-- Fixed: MCP extract URL was missing `/api/v1` prefix ¡ª caused CORS block when calling from self-hosted frontend
+- Fixed: MCP extract URL was missing `/api/v1` prefix ï¿½ï¿½ caused CORS block when calling from self-hosted frontend
 
 ### v1.0.51 (August 2026)
 
-- Added: "Continue" button on Folder detail page ¡ª for PDFs uploaded before MCP was connected, click triggers AI extraction (MCP extract ¡ú extracted CSV ¡ú validate_extraction task created automatically)
-- Updated: Batch Upload button label ¡ú "Start working (N files)" during AI Workforce OS flow; AI extraction spinner is now violet to distinguish from the blue upload spinner
-- Fixed: Junior can now see folders created by a Manager before they were assigned ¡ª assigning a client now cascades `assigned_junior` to all existing open folders
+- Added: "Continue" button on Folder detail page ï¿½ï¿½ for PDFs uploaded before MCP was connected, click triggers AI extraction (MCP extract ï¿½ï¿½ extracted CSV ï¿½ï¿½ validate_extraction task created automatically)
+- Updated: Batch Upload button label ï¿½ï¿½ "Start working (N files)" during AI Workforce OS flow; AI extraction spinner is now violet to distinguish from the blue upload spinner
+- Fixed: Junior can now see folders created by a Manager before they were assigned ï¿½ï¿½ assigning a client now cascades `assigned_junior` to all existing open folders
 
 ### v1.0.50 (August 2026)
 
@@ -435,20 +435,20 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ### v1.0.49 (August 2026)
 
-- Added: Directors management on Client detail page ¡ª always visible; inline Add/Delete form (name, position, email, phone)
+- Added: Directors management on Client detail page ï¿½ï¿½ always visible; inline Add/Delete form (name, position, email, phone)
 - Fixed: Owner can now see clients, team members, and completed folders across all child groups (Partner Groups)
 
 ### v1.0.45 (August 2026)
 
-- Added: Batch Upload now calls MCP extract automatically after each file upload ¡ª structured transaction rows written to `extracted/` in your Supabase Storage
+- Added: Batch Upload now calls MCP extract automatically after each file upload ï¿½ï¿½ structured transaction rows written to `extracted/` in your Supabase Storage
 - Added: `validate_extraction` task created in Supabase after extraction, making the folder immediately visible in Chat with a "Validate extraction" task pill
 - Added: Sequential file processing per group prevents concurrent quota deductions (one file at a time; backend uses optimistic locking as a second guard)
-- Added: `SWEEPER_MCP_ENDPOINT` env var (optional) ¡ª override the Sweeper backend endpoint if instructed by support
+- Added: `SWEEPER_MCP_ENDPOINT` env var (optional) ï¿½ï¿½ override the Sweeper backend endpoint if instructed by support
 - Fixed: Opening/closing balance metadata lines now included in extracted CSV (passed through from MCP response)
 
 ### v1.0.41 (August 2026)
 
-- Added: "Your data" section ¡ª explains that all workpapers live in your own Supabase Storage and are yours to query directly for downstream integrations (Xero, MYOB, QuickBooks)
+- Added: "Your data" section ï¿½ï¿½ explains that all workpapers live in your own Supabase Storage and are yours to query directly for downstream integrations (Xero, MYOB, QuickBooks)
 - Updated: Architecture diagram clarifies Sweeper backend scope (AI processing only; downstream integrations are your own)
 
 ### v1.0.35 (August 2026)
@@ -457,7 +457,7 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 - Fixed: Register Client button now creates client and directors in self-hosted (Supabase direct)
 - Fixed: Team members list shows child group members in parent team view (self-hosted)
 - Fixed: Move member to child group now allowed by RLS policy (Migration 062)
-- Fixed: Create Group, SLA profiles, AI Settings nav ¡ª self-hosted compatibility
+- Fixed: Create Group, SLA profiles, AI Settings nav ï¿½ï¿½ self-hosted compatibility
 
 ### v1.0.31 (August 2026)
 
@@ -485,32 +485,32 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ### v1.0.24 (August 2026)
 
-- Fixed: Add member (Partner role) now correctly creates team with firm_id â€?RLS policy added
+- Fixed: Add member (Partner role) now correctly creates team with firm_id ï¿½?RLS policy added
 - Fixed: "Multiple GoTrueClient instances" warning eliminated (anon client moved to module level)
 
 ### v1.0.23 (August 2026)
 
 - Fixed: Add member now works in self-hosted mode (Supabase direct, no backend required)
 - Fixed: Team rename now works in self-hosted mode
-- Added: Account setup notes â€?unique email requirement + email alias pattern
+- Added: Account setup notes ï¿½?unique email requirement + email alias pattern
 
 ### v1.0.22 (August 2026)
 
-- Fixed: MCP plan staff limits â€?Starter 15 staff, Growth 20 staff
+- Fixed: MCP plan staff limits ï¿½?Starter 15 staff, Growth 20 staff
 
 ### v1.0.21 (August 2026)
 
-- Updated: MCP plan pricing â€?Starter 150 runs / Growth 250 runs / Scale contact us
-- Updated: Top-up packs â€?20 / 30 / 50 runs at AU$10/run
+- Updated: MCP plan pricing ï¿½?Starter 150 runs / Growth 250 runs / Scale contact us
+- Updated: Top-up packs ï¿½?20 / 30 / 50 runs at AU$10/run
 - Updated: Storage row removed from plan cards (storage is your Supabase project)
-- Updated: Platform feature label â€?Audit trails Â· 5-yr
+- Updated: Platform feature label ï¿½?Audit trails Â· 5-yr
 
 ### v1.0.20 (August 2026)
 
 - Improved: Plan & Billing page stability and enterprise portal link
 - Improved: MCP key configuration and team module toggle reliability
 
-### v1.0 â€?Initial release (August 2026)
+### v1.0 ï¿½?Initial release (August 2026)
 
 - Data normalization
 - Workpaper preparation
