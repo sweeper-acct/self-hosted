@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.1.27  
+> **Version**: v1.1.43  
 > AI Workforce OS for Australian accounting firms �?self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.43 (August 2026)
+- Fixed: workpaper files (validated/, processed/, reviewed/, final/, archived/) not appearing in Working Paper Files panel after submission — direct `supabase.from('files').insert()` calls were silently blocked by RLS; switched all file state inserts to `record_file_selfhosted` SECURITY DEFINER RPC across ValidatePage, SeniorReviewPage, SeniorBasDraftPage, and CertifyPage
+- Fixed: CaseDetailPage showed stale "No workpaper files yet" after validate_extraction submit — React Query cache for `case-files` now invalidated on submit success
 
 ### v1.1.26 (August 2026)
 - Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows �� panel now updates live as edits are made, without requiring submit
