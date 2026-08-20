@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-20T01:04:38Z
+-- Sweeper combined schema — generated 2026-08-20T04:15:16Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
@@ -3140,6 +3140,16 @@ ALTER TABLE mcp_customers
 
 COMMENT ON COLUMN mcp_customers.allowed_origin IS
   'Self-hosted deployment URL (e.g. https://sweeper.firmname.com.au). Used by gateway for CORS authorisation.';
+
+
+-- ── 20260101000062_mcp_pages_quota.sql ───────────────────────────────────
+-- Migration 062: Add pages_used and pages_limit to mcp_subscriptions
+-- pages_used: running count of PDF pages processed this billing period
+-- pages_limit: monthly page cap (NULL = no cap; trial = 35; paid plans = from _MCP_PLAN_PAGES)
+
+ALTER TABLE mcp_subscriptions
+  ADD COLUMN IF NOT EXISTS pages_used  INTEGER NOT NULL DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS pages_limit INTEGER DEFAULT NULL;
 
 
 -- ── 20260101000062_users_update_rls_child_group.sql ───────────────────────────────────
