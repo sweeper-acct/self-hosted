@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.1.43  
+> **Version**: v1.1.75  
 > AI Workforce OS for Australian accounting firms ->self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -274,6 +274,28 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.75 (August 2026)
+- Fix: `SeniorReviewPage` approve role gate in self-hosted — Approve/Reject buttons now hidden for roles without permission; `SH_APPROVE_ROLES` enforced in mutation
+- Fix: reject-cycle duplicate task bug in `SeniorReviewPage.shApproveMutation` — lookup now includes `rejected` status, uses UPDATE instead of INSERT on re-run
+
+### v1.1.74 (August 2026)
+- Security: SECURITY DEFINER RPC authorization hardening — all RPCs now validate caller firm ownership against `public.users` table (not just JWT claim)
+- Security: `update_member_selfhosted` RPC replaces direct `users` table UPDATE — prevents within-firm privilege escalation
+- Fix: `directors` DELETE RLS policy added — partner/manager/senior can now remove directors
+- Fix: `sla_profiles` DELETE RLS policy added — partner/admin can delete SLA profiles
+
+### v1.1.69 (August 2026)
+- Fix: Add Member blocked for Owner role — new `register_member_selfhosted` SECURITY DEFINER RPC; direct `users.insert()` replaced
+- Fix: `ManagerReviewPage` flash "Failed to load BAS summary" — loading state now includes parent `shDataLoading`
+
+### v1.1.60 (August 2026)
+- Fix: `SeniorReviewPage` + `ManagerReviewPage` self-hosted approve role gate added — `canApprove` flag computed from role × task_type; view-only message shown for unauthorized roles
+
+### v1.1.54 (August 2026)
+- Feat: Case Log — 4 new action filter options: client_query_sent / client_query_answered / client_query_revoked / document_uploaded
+- Feat: Case Log Action column now shows workflow step name from `input_snapshot.task_type`
+- Feat: audit trail entries added for GenerateQueryModal, CertifyPage document upload, client query submission and file upload
 
 ### v1.1.43 (August 2026)
 - Fixed: workpaper files (validated/, processed/, reviewed/, final/, archived/) not appearing in Working Paper Files panel after submission — direct `supabase.from('files').insert()` calls were silently blocked by RLS; switched all file state inserts to `record_file_selfhosted` SECURITY DEFINER RPC across ValidatePage, SeniorReviewPage, SeniorBasDraftPage, and CertifyPage
