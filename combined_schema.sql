@@ -1,4 +1,4 @@
--- Sweeper combined schema — generated 2026-08-21T01:10:59Z
+-- Sweeper combined schema — generated 2026-08-21T07:32:26Z
 -- Apply this file in Supabase SQL Editor (one paste, no CLI required)
 
 
