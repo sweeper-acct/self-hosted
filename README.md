@@ -269,7 +269,7 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ---
 
-*Sweeper is developed and maintained by PIN ME PTY LTD ->ABN 94 635 327 365*
+© 2026 PIN ME PTY LTD. All rights reserved.
 
 ---
 
