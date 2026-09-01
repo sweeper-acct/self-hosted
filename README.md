@@ -59,9 +59,6 @@ You can query these files directly using the Supabase client, the Supabase dashb
 
 ---
 
-The frontend image is public on Docker Hub ->**no Docker Hub login required**.  
-Your Supabase URL and MCP endpoint are injected at container start via `window.__SWEEPER__` (no rebuild needed on config change).
-
 ---
 
 ## Prerequisites
@@ -149,7 +146,7 @@ Fill in:
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SWEEPER_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
-| `SWEEPER_VERSION` | `1.1.90` (or leave default) |
+| `SWEEPER_VERSION` | `1.1.96` (or leave default) |
 
 ### 6. Configure Supabase Auth redirect URLs
 
@@ -218,10 +215,10 @@ docker compose up -d --force-recreate
 |---|---|---|
 | `VITE_SUPABASE_URL` | Yes | Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Yes | Supabase anon key |
-| `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au ->enabling data normalization, workpaper preparation, client collaboration, audit trails, Xero/QBO integration, and professional sign-off. |
+| `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au - enables AI Normalization, workpaper preparation, client collaboration, audit trails, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.1.90`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.1.96`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -269,11 +266,22 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ---
 
-漏 2026 PIN ME PTY LTD. All rights reserved.
+© 2026 PIN ME PTY LTD. All rights reserved.
 
 ---
 
 ## Changelog
+
+### v1.1.96 (September 2026)
+- Enhancement: GenerateQueryModal now shows "Link expires in 7 days." notice so accountants know the deadline when sharing a client query link
+
+### v1.1.95 (September 2026)
+- Feat: In-browser BAS workpaper merge for self-hosted mode (`handleMergeBas_sh`) - Quarterly merge produces a Summary sheet + per-period BAS Summary + 5 transaction sub-sheets (Bank / Income / Expense / Non-GST / Team Notes); Annual merge produces Summary + per-period BAS Summary only; uses SheetJS dynamic import, no backend required
+
+### v1.1.94 (August 2026)
+- Fix: `combined_schema.sql` fully idempotent - all `ALTER TABLE ... ADD COLUMN` now use `IF NOT EXISTS`; all `ADD CONSTRAINT` preceded by `DROP CONSTRAINT IF EXISTS`; all `CREATE POLICY` preceded by `DROP POLICY IF EXISTS`; `ALTER PUBLICATION ADD TABLE` wrapped in DO block; `REVOKE EXECUTE ON FUNCTION rls_auto_enable()` wrapped in DO block
+- Fix: `check_setup_selfhosted` RPC now lists correct function names (was referencing renamed/removed RPCs from earlier versions)
+- Re-running `combined_schema.sql` on an existing database is now always safe
 
 ### v1.1.93 (August 2026)
 - Fix: Certify, Manager Review, and Client Confirm pages now surface self-hosted mutation errors inline (previously silent) — error text appears inside the modal above the action buttons
