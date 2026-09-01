@@ -1,7 +1,7 @@
 ﻿# Sweeper Self-Hosted
 
-> **Version**: v1.1.93  
-> AI Workforce OS for Australian accounting firms ->self-hosted edition.
+> **Version**: v1.1.96  
+> AI Workforce OS, purpose-built for Australian accounting firms — document normalisation, compliance coding, workpaper preparation, client collaboration, and professional sign-off. Self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
 > Register at [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au)
