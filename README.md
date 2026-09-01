@@ -1,4 +1,4 @@
-﻿# Sweeper Self-Hosted
+# Sweeper Self-Hosted
 
 > **Version**: v1.1.96  
 > AI Workforce OS, purpose-built for Australian accounting firms — document normalisation, compliance coding, workpaper preparation, client collaboration, and professional sign-off. Self-hosted edition.
@@ -289,11 +289,11 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 - Enhancement: Upgrade banner in AppShell — polls `/api/v1/version/latest` every 6h; shown to owner/admin only; dismissible per version
 
 ### v1.1.90 (August 2026)
-- Enhancement: GST Workpaper Excel (`downloadWorkpaperXlsx_sh`) now matches SaaS format 鈥?title row, metadata row (Prepared by / Reviewed by / Generated / transaction count), blank row before headers, and WORKING PAPER SIGN-OFF + PREPARED FOR blocks on the "All Transactions" sheet
-- Enhancement: BAS Summary Excel (`downloadBasSummaryXlsx_sh`) already received the same treatment in v1.1.89 鈥?both exports now include full staff attribution and client cover information
+- Enhancement: GST Workpaper Excel (`downloadWorkpaperXlsx_sh`) now matches SaaS format —title row, metadata row (Prepared by / Reviewed by / Generated / transaction count), blank row before headers, and WORKING PAPER SIGN-OFF + PREPARED FOR blocks on the "All Transactions" sheet
+- Enhancement: BAS Summary Excel (`downloadBasSummaryXlsx_sh`) already received the same treatment in v1.1.89 —both exports now include full staff attribution and client cover information
 
 ### v1.1.85 (August 2026)
-- Fix: `set_case_derived_fields` trigger now copies `assigned_junior` from `clients` when a new folder is created 鈥?Junior RLS (`cases_select_junior`, `files_select_junior`) depends on this field; without it Junior sees no folders and no transactions in the Validate page
+- Fix: `set_case_derived_fields` trigger now copies `assigned_junior` from `clients` when a new folder is created —Junior RLS (`cases_select_junior`, `files_select_junior`) depends on this field; without it Junior sees no folders and no transactions in the Validate page
 - **DB fix required for existing folders**: run in Supabase SQL Editor:
   ```sql
   UPDATE cases c SET assigned_junior = cl.assigned_junior
@@ -301,49 +301,49 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
   ```
 
 ### v1.1.84 (August 2026)
-- Fix: Junior role in self-hosted ConversationPage now sees tasks even when case was created by Owner/Partner under a different team 鈥?tasks are now fetched directly by `assigned_to` instead of via team case IDs
+- Fix: Junior role in self-hosted ConversationPage now sees tasks even when case was created by Owner/Partner under a different team —tasks are now fetched directly by `assigned_to` instead of via team case IDs
 
 ### v1.1.83 (August 2026)
-- Fix: `advance_to_validate_selfhosted` RPC 鈥?validate_extraction and validate_gst tasks now correctly assigned to `clients.assigned_junior` instead of the uploading user; senior/manager/partner tasks use proper fallback chain so no human task ever has NULL assigned_to
+- Fix: `advance_to_validate_selfhosted` RPC —validate_extraction and validate_gst tasks now correctly assigned to `clients.assigned_junior` instead of the uploading user; senior/manager/partner tasks use proper fallback chain so no human task ever has NULL assigned_to
 
 ### v1.1.82 (August 2026)
-- Fix: Enterprise Dashboard `GET /mcp-billing/usage` now succeeds even when quota is exhausted 鈥?billing endpoints bypass quota check so accountants can always view usage and top up
-- Feat: Red warning banner shown when runs or pages quota is exhausted for paid subscribers 鈥?accounting-friendly explanation of what is paused and when it resets, with a prompt to purchase top-ups
+- Fix: Enterprise Dashboard `GET /mcp-billing/usage` now succeeds even when quota is exhausted —billing endpoints bypass quota check so accountants can always view usage and top up
+- Feat: Red warning banner shown when runs or pages quota is exhausted for paid subscribers —accounting-friendly explanation of what is paused and when it resets, with a prompt to purchase top-ups
 - Fix: `handleApiKey` error messages distinguish subscription-inactive from invalid key
 
 ### v1.1.81 (August 2026)
-- Fix: `case_log` 403 in self-hosted 鈥?replaced direct `supabase.from('case_log').insert()` with `insert_case_log_selfhosted` SECURITY DEFINER RPC
-- Fix: nginx `proxy_read_timeout` 120s 鈫?300s in `nginx.selfhosted.conf` for MCP proxy 鈥?prevents 504 timeout on large PDFs
+- Fix: `case_log` 403 in self-hosted —replaced direct `supabase.from('case_log').insert()` with `insert_case_log_selfhosted` SECURITY DEFINER RPC
+- Fix: nginx `proxy_read_timeout` 120s →300s in `nginx.selfhosted.conf` for MCP proxy —prevents 504 timeout on large PDFs
 
 ### v1.1.80 (August 2026)
 - Fix: `BatchUploadPage` case_log INSERT changed to non-fatal fire-and-forget
-- Fix: nginx `proxy_read_timeout` increased to 300s for MCP proxy (SaaS nginx.conf only 鈥?`nginx.selfhosted.conf` fixed in v1.1.81)
+- Fix: nginx `proxy_read_timeout` increased to 300s for MCP proxy (SaaS nginx.conf only —`nginx.selfhosted.conf` fixed in v1.1.81)
 
 ### v1.1.79 (August 2026)
-- Fix: `SeniorReviewPage` approve role gate in self-hosted 鈥?Approve/Reject buttons now hidden for roles without permission; `SH_APPROVE_ROLES` enforced in mutation
-- Fix: reject-cycle duplicate task bug in `SeniorReviewPage.shApproveMutation` 鈥?lookup now includes `rejected` status, uses UPDATE instead of INSERT on re-run
+- Fix: `SeniorReviewPage` approve role gate in self-hosted —Approve/Reject buttons now hidden for roles without permission; `SH_APPROVE_ROLES` enforced in mutation
+- Fix: reject-cycle duplicate task bug in `SeniorReviewPage.shApproveMutation` —lookup now includes `rejected` status, uses UPDATE instead of INSERT on re-run
 
 ### v1.1.74 (August 2026)
-- Security: SECURITY DEFINER RPC authorization hardening 鈥?all RPCs now validate caller firm ownership against `public.users` table (not just JWT claim)
-- Security: `update_member_selfhosted` RPC replaces direct `users` table UPDATE 鈥?prevents within-firm privilege escalation
-- Fix: `directors` DELETE RLS policy added 鈥?partner/manager/senior can now remove directors
-- Fix: `sla_profiles` DELETE RLS policy added 鈥?partner/admin can delete SLA profiles
+- Security: SECURITY DEFINER RPC authorization hardening —all RPCs now validate caller firm ownership against `public.users` table (not just JWT claim)
+- Security: `update_member_selfhosted` RPC replaces direct `users` table UPDATE —prevents within-firm privilege escalation
+- Fix: `directors` DELETE RLS policy added —partner/manager/senior can now remove directors
+- Fix: `sla_profiles` DELETE RLS policy added —partner/admin can delete SLA profiles
 
 ### v1.1.69 (August 2026)
-- Fix: Add Member blocked for Owner role 鈥?new `register_member_selfhosted` SECURITY DEFINER RPC; direct `users.insert()` replaced
-- Fix: `ManagerReviewPage` flash "Failed to load BAS summary" 鈥?loading state now includes parent `shDataLoading`
+- Fix: Add Member blocked for Owner role —new `register_member_selfhosted` SECURITY DEFINER RPC; direct `users.insert()` replaced
+- Fix: `ManagerReviewPage` flash "Failed to load BAS summary" —loading state now includes parent `shDataLoading`
 
 ### v1.1.60 (August 2026)
-- Fix: `SeniorReviewPage` + `ManagerReviewPage` self-hosted approve role gate added 鈥?`canApprove` flag computed from role 脳 task_type; view-only message shown for unauthorized roles
+- Fix: `SeniorReviewPage` + `ManagerReviewPage` self-hosted approve role gate added —`canApprove` flag computed from role × task_type; view-only message shown for unauthorized roles
 
 ### v1.1.54 (August 2026)
-- Feat: Case Log 鈥?4 new action filter options: client_query_sent / client_query_answered / client_query_revoked / document_uploaded
+- Feat: Case Log —4 new action filter options: client_query_sent / client_query_answered / client_query_revoked / document_uploaded
 - Feat: Case Log Action column now shows workflow step name from `input_snapshot.task_type`
 - Feat: audit trail entries added for GenerateQueryModal, CertifyPage document upload, client query submission and file upload
 
 ### v1.1.43 (August 2026)
-- Fixed: workpaper files (validated/, processed/, reviewed/, final/, archived/) not appearing in Working Paper Files panel after submission 鈥?direct `supabase.from('files').insert()` calls were silently blocked by RLS; switched all file state inserts to `record_file_selfhosted` SECURITY DEFINER RPC across ValidatePage, SeniorReviewPage, SeniorBasDraftPage, and CertifyPage
-- Fixed: CaseDetailPage showed stale "No workpaper files yet" after validate_extraction submit 鈥?React Query cache for `case-files` now invalidated on submit success
+- Fixed: workpaper files (validated/, processed/, reviewed/, final/, archived/) not appearing in Working Paper Files panel after submission —direct `supabase.from('files').insert()` calls were silently blocked by RLS; switched all file state inserts to `record_file_selfhosted` SECURITY DEFINER RPC across ValidatePage, SeniorReviewPage, SeniorBasDraftPage, and CertifyPage
+- Fixed: CaseDetailPage showed stale "No workpaper files yet" after validate_extraction submit —React Query cache for `case-files` now invalidated on submit success
 
 ### v1.1.26 (August 2026)
 - Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows - panel now updates live as edits are made, without requiring submit
