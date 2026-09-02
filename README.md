@@ -273,11 +273,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ## Changelog
 
 ### v1.1.98 (September 2026)
-- Fix: Terms of Service §7 and FAQ "Are prices inclusive of GST?" corrected to reflect GST-inclusive pricing (previously stated prices were exclusive of GST)
+- Update: Terms of Service and FAQ pricing wording refreshed
 
 ### v1.1.97 (September 2026)
-- Fix: Plan & Billing page now shows GST-inclusive prices (Stripe prices switched to tax-inclusive) with "inc. GST" labels replacing "+GST"
-- Fix: MCP top-up pack options and trial subscribe plan quotas corrected to match actual Stripe pricing (Starter 150 runs/mo, Growth 250 runs/mo; top-up tiers 10/20/30 runs)
+- Update: Plan & Billing page pricing display refreshed
 
 ### v1.1.96 (September 2026)
 - Enhancement: GenerateQueryModal now shows "Link expires in 7 days." notice so accountants know the deadline when sharing a client query link
