@@ -1,6 +1,6 @@
 # Sweeper Self-Hosted
 
-> **Version**: v1.1.96  
+> **Version**: v1.1.97  
 > AI Workforce OS, purpose-built for Australian accounting firms — document normalisation, compliance coding, workpaper preparation, client collaboration, and professional sign-off. Self-hosted edition.
 
 > **Requires a Sweeper Enterprise license.**  
@@ -146,7 +146,7 @@ Fill in:
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Supabase anon key |
 | `SWEEPER_MCP_KEY` | Your Sweeper MCP API key from [enterprise.sweeper-acct.com.au](https://enterprise.sweeper-acct.com.au) |
-| `SWEEPER_VERSION` | `1.1.96` (or leave default) |
+| `SWEEPER_VERSION` | `1.1.97` (or leave default) |
 
 ### 6. Configure Supabase Auth redirect URLs
 
@@ -218,7 +218,7 @@ docker compose up -d --force-recreate
 | `SWEEPER_MCP_KEY` | Yes | MCP API key from enterprise.sweeper-acct.com.au - enables AI Normalization, workpaper preparation, client collaboration, audit trails, and professional sign-off. |
 | `VITE_APP_NAME` | No | Display name (default: `Sweeper`) |
 | `VITE_CONTACT_EMAIL` | No | Support email shown in UI |
-| `SWEEPER_VERSION` | No | Image version to pull (default: `1.1.96`) |
+| `SWEEPER_VERSION` | No | Image version to pull (default: `1.1.97`) |
 | `FRONTEND_PORT` | No | Host port (default: `3000`) |
 
 ---
@@ -271,6 +271,10 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 ---
 
 ## Changelog
+
+### v1.1.97 (September 2026)
+- Fix: Plan & Billing page now shows GST-inclusive prices (Stripe prices switched to tax-inclusive) with "inc. GST" labels replacing "+GST"
+- Fix: MCP top-up pack options and trial subscribe plan quotas corrected to match actual Stripe pricing (Starter 150 runs/mo, Growth 250 runs/mo; top-up tiers 10/20/30 runs)
 
 ### v1.1.96 (September 2026)
 - Enhancement: GenerateQueryModal now shows "Link expires in 7 days." notice so accountants know the deadline when sharing a client query link
