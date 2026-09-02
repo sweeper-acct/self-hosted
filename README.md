@@ -279,96 +279,76 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 - Update: Plan & Billing page pricing display refreshed
 
 ### v1.1.96 (September 2026)
-- Enhancement: GenerateQueryModal now shows "Link expires in 7 days." notice so accountants know the deadline when sharing a client query link
+- Feature: client query links now show a 7-day expiry notice when shared with clients
 
 ### v1.1.95 (September 2026)
-- Feat: In-browser BAS workpaper merge for self-hosted mode (`handleMergeBas_sh`) - Quarterly merge produces a Summary sheet + per-period BAS Summary + 5 transaction sub-sheets (Bank / Income / Expense / Non-GST / Team Notes); Annual merge produces Summary + per-period BAS Summary only; uses SheetJS dynamic import, no backend required
+- Feature: quarterly and annual BAS workpaper merge, generated directly in the browser
 
 ### v1.1.94 (August 2026)
-- Fix: `combined_schema.sql` fully idempotent - all `ALTER TABLE ... ADD COLUMN` now use `IF NOT EXISTS`; all `ADD CONSTRAINT` preceded by `DROP CONSTRAINT IF EXISTS`; all `CREATE POLICY` preceded by `DROP POLICY IF EXISTS`; `ALTER PUBLICATION ADD TABLE` wrapped in DO block; `REVOKE EXECUTE ON FUNCTION rls_auto_enable()` wrapped in DO block
-- Fix: `check_setup_selfhosted` RPC now lists correct function names (was referencing renamed/removed RPCs from earlier versions)
-- Re-running `combined_schema.sql` on an existing database is now always safe
+- Fix: database setup script can now be safely re-run on an existing installation
 
 ### v1.1.93 (August 2026)
-- Fix: Certify, Manager Review, and Client Confirm pages now surface self-hosted mutation errors inline (previously silent) — error text appears inside the modal above the action buttons
-- Enhancement: Setup Health Check page at `/setup-check` (owner/admin only) — checks JWT `app_metadata`, DB RPC availability, and `client-uploads` Storage bucket; shows inline SQL fix for each issue
-- Enhancement: Upgrade banner in AppShell — polls `/api/v1/version/latest` every 6h; shown to owner/admin only; dismissible per version
+- Fix: workflow pages now show a clear error message instead of failing silently
+- Feature: new Setup Health Check page (owner/admin) to verify your installation is configured correctly
+- Feature: in-app notice when a newer version is available
 
 ### v1.1.90 (August 2026)
-- Enhancement: GST Workpaper Excel (`downloadWorkpaperXlsx_sh`) now matches SaaS format —title row, metadata row (Prepared by / Reviewed by / Generated / transaction count), blank row before headers, and WORKING PAPER SIGN-OFF + PREPARED FOR blocks on the "All Transactions" sheet
-- Enhancement: BAS Summary Excel (`downloadBasSummaryXlsx_sh`) already received the same treatment in v1.1.89 —both exports now include full staff attribution and client cover information
+- Enhancement: exported GST and BAS Summary workbooks now include full staff sign-off and client cover details, matching the cloud edition
 
 ### v1.1.85 (August 2026)
-- Fix: `set_case_derived_fields` trigger now copies `assigned_junior` from `clients` when a new folder is created —Junior RLS (`cases_select_junior`, `files_select_junior`) depends on this field; without it Junior sees no folders and no transactions in the Validate page
-- **DB fix required for existing folders**: run in Supabase SQL Editor:
+- Fix: new folders now correctly inherit the assigned team member, so junior staff can see their work
+- **Existing installations**: run this once in the Supabase SQL Editor to repair older folders:
   ```sql
   UPDATE cases c SET assigned_junior = cl.assigned_junior
   FROM clients cl WHERE c.client_id = cl.id AND c.assigned_junior IS NULL;
   ```
 
 ### v1.1.84 (August 2026)
-- Fix: Junior role in self-hosted ConversationPage now sees tasks even when case was created by Owner/Partner under a different team —tasks are now fetched directly by `assigned_to` instead of via team case IDs
+- Fix: staff can now see tasks assigned to them across folders created by other team members
 
 ### v1.1.83 (August 2026)
-- Fix: `advance_to_validate_selfhosted` RPC —validate_extraction and validate_gst tasks now correctly assigned to `clients.assigned_junior` instead of the uploading user; senior/manager/partner tasks use proper fallback chain so no human task ever has NULL assigned_to
+- Fix: workflow tasks are now assigned to the correct team member at every step
 
 ### v1.1.82 (August 2026)
-- Fix: Enterprise Dashboard `GET /mcp-billing/usage` now succeeds even when quota is exhausted —billing endpoints bypass quota check so accountants can always view usage and top up
-- Feat: Red warning banner shown when runs or pages quota is exhausted for paid subscribers —accounting-friendly explanation of what is paused and when it resets, with a prompt to purchase top-ups
-- Fix: `handleApiKey` error messages distinguish subscription-inactive from invalid key
+- Fix: usage and billing pages remain accessible even when your MCP quota is used up
+- Feature: clear warning shown when your MCP quota is running low or exhausted
+- Fix: clearer error messages for API key issues
 
 ### v1.1.81 (August 2026)
-- Fix: `case_log` 403 in self-hosted —replaced direct `supabase.from('case_log').insert()` with `insert_case_log_selfhosted` SECURITY DEFINER RPC
-- Fix: nginx `proxy_read_timeout` 120s →300s in `nginx.selfhosted.conf` for MCP proxy —prevents 504 timeout on large PDFs
+- Fix: resolved a permissions error when logging workflow activity
+- Fix: increased timeout for processing large PDF statements
 
 ### v1.1.80 (August 2026)
-- Fix: `BatchUploadPage` case_log INSERT changed to non-fatal fire-and-forget
-- Fix: nginx `proxy_read_timeout` increased to 300s for MCP proxy (SaaS nginx.conf only —`nginx.selfhosted.conf` fixed in v1.1.81)
+- Fix: improved reliability of activity logging
 
 ### v1.1.79 (August 2026)
-- Fix: `SeniorReviewPage` approve role gate in self-hosted —Approve/Reject buttons now hidden for roles without permission; `SH_APPROVE_ROLES` enforced in mutation
-- Fix: reject-cycle duplicate task bug in `SeniorReviewPage.shApproveMutation` —lookup now includes `rejected` status, uses UPDATE instead of INSERT on re-run
+- Fix: approval buttons now correctly reflect each user's permissions
+- Fix: resolved a duplicate task issue after rejecting and resubmitting a workpaper
 
 ### v1.1.74 (August 2026)
-- Security: SECURITY DEFINER RPC authorization hardening —all RPCs now validate caller firm ownership against `public.users` table (not just JWT claim)
-- Security: `update_member_selfhosted` RPC replaces direct `users` table UPDATE —prevents within-firm privilege escalation
-- Fix: `directors` DELETE RLS policy added —partner/manager/senior can now remove directors
-- Fix: `sla_profiles` DELETE RLS policy added —partner/admin can delete SLA profiles
+- Security: strengthened access-control checks across the platform
+- Fix: additional team roles can now manage directors and SLA profiles as intended
 
 ### v1.1.69 (August 2026)
-- Fix: Add Member blocked for Owner role —new `register_member_selfhosted` SECURITY DEFINER RPC; direct `users.insert()` replaced
-- Fix: `ManagerReviewPage` flash "Failed to load BAS summary" —loading state now includes parent `shDataLoading`
+- Fix: Owner role can now add team members
+- Fix: resolved a flash of a false error message on the Manager Review page
 
 ### v1.1.60 (August 2026)
-- Fix: `SeniorReviewPage` + `ManagerReviewPage` self-hosted approve role gate added —`canApprove` flag computed from role × task_type; view-only message shown for unauthorized roles
+- Fix: approve/reject actions now correctly respect each role's permissions
 
 ### v1.1.54 (August 2026)
-- Feat: Case Log —4 new action filter options: client_query_sent / client_query_answered / client_query_revoked / document_uploaded
-- Feat: Case Log Action column now shows workflow step name from `input_snapshot.task_type`
-- Feat: audit trail entries added for GenerateQueryModal, CertifyPage document upload, client query submission and file upload
+- Feature: Case Log now covers client query and document activity, with clearer filtering and step labels
 
 ### v1.1.43 (August 2026)
-- Fixed: workpaper files (validated/, processed/, reviewed/, final/, archived/) not appearing in Working Paper Files panel after submission —direct `supabase.from('files').insert()` calls were silently blocked by RLS; switched all file state inserts to `record_file_selfhosted` SECURITY DEFINER RPC across ValidatePage, SeniorReviewPage, SeniorBasDraftPage, and CertifyPage
-- Fixed: CaseDetailPage showed stale "No workpaper files yet" after validate_extraction submit —React Query cache for `case-files` now invalidated on submit success
+- Fix: workpaper files now appear reliably in the Working Paper Files panel after each workflow step
 
 ### v1.1.26 (August 2026)
-- Fixed: GST Breakdown in Senior Review right panel showed $0.00 and stale tab counts (Ready for GST / Non-GST / Review Required) after Senior reclassified rows - panel now updates live as edits are made, without requiring submit
+- Fix: GST breakdown and tab counts on the Senior Review page now update live as you edit
 
 ### v1.1.18 (August 2026)
-- Fixed: duplicate "Extract" entries in Folder Steps when case had two `extract` tasks - `TaskList` now deduplicates by `task_type` before rendering
-- Fixed: `handleUploadAndExtract` (upload new PDF button) used direct `tasks` INSERT which bypassed idempotency checks; changed to call `advance_to_validate_selfhosted` RPC (same as Continue button)
-- Fixed: `advance_to_validate_selfhosted` RPC `ON CONFLICT DO NOTHING` did not prevent duplicate `extract` tasks (partial unique index only covers non-complete statuses); replaced with explicit `IF NOT EXISTS` check
-
-  **DB fix required for existing installations** - re-run `advance_to_validate_selfhosted` function in Supabase SQL Editor:
+- Fix: resolved duplicate task entries that could appear in Folder Steps
+- **Existing installations**: if you notice duplicate "Extract" entries, run this once in the Supabase SQL Editor:
   ```sql
-  -- Copy the full CREATE OR REPLACE FUNCTION advance_to_validate_selfhosted ...
-  -- from combined_schema.sql lines 3608->C3699 and paste into SQL Editor
-  ```
-  Then clean up any duplicate extract tasks:
-  ```sql
-  -- List duplicates
-  SELECT case_id, COUNT(*) FROM tasks WHERE task_type = 'extract' GROUP BY case_id HAVING COUNT(*) > 1;
-  -- Delete extra (keep the one with the latest completed_at)
   DELETE FROM tasks WHERE id IN (
     SELECT id FROM (
       SELECT id, ROW_NUMBER() OVER (PARTITION BY case_id ORDER BY completed_at DESC) AS rn
@@ -378,31 +358,22 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
   ```
 
 ### v1.1.17 (August 2026)
-- Fixed: MCP extract calls returned 401 "Invalid MCP key format" - `X-MCP-Key` header was missing from the nginx self-hosted MCP proxy location block; key placeholder `SWEEPER_MCP_KEY_VALUE` was never added to `nginx.selfhosted.conf`
+- Fix: resolved a connection error when calling the MCP extraction service
 
 ### v1.1.16 (August 2026)
-- Fixed: `tasks` insert in self-hosted new-folder flow included `team_id` column which does not exist in the tasks schema - caused 400 PGRST204 error when creating a new folder from ClientDetailPage
+- Fix: resolved an error when creating a new folder
 
 ### v1.1.15 (August 2026)
-- Fixed: MCP key not detected on Modules page - `docker-compose.yml` only mapped key as `VITE_MCP_KEY` but `docker-entrypoint.sh` reads `SWEEPER_MCP_KEY`; both names now mapped; entrypoint falls back to `VITE_MCP_KEY` if `SWEEPER_MCP_KEY` absent
+- Fix: MCP key now detected correctly on the Modules page
 
 ### v1.1.14 (August 2026)
-- Fixed: `combined_schema.sql` idempotency - all CREATE TABLE / INDEX / TRIGGER now use IF NOT EXISTS / OR REPLACE; safe to re-run after a partial-run failure without DROP TABLE
-- Fixed: `ADD COLUMN engagement_date` missing IF NOT EXISTS guard
-- Fixed: `ADD CONSTRAINT chk_activated_at_required` missing preceding DROP IF EXISTS
-- Fixed: incorrect header comment that claimed schema was already safe to re-run
+- Fix: database setup script reliability improvements
 
 ### v1.1.04 (August 2026)
-- Fixed: client query file uploads - `record_client_query_upload` RPC now formally in Migration 066 (was missing from all prior migrations; uploads silently failed in self-hosted mode)
-- Fixed: `document_type` for client-uploaded attachments changed from `"receipt"` to `"client_upload"` (SaaS + self-hosted); existing uploads are unaffected
-- Fixed: Supporting Evidence download URL - removed dead `client-uploads` bucket check in `get_document_download_url`; always uses `firm-{uuid}` bucket for SaaS mode
-- Fixed: README Storage bucket setup - replaced incorrect `firm-files` with correct `firm-{uuid}` (auto-created by `register_firm()`) and added `client-uploads` bucket setup with SQL policies
-- Action required: apply Migration 066 in Supabase SQL Editor, then create `client-uploads` Storage bucket per README step 3
+- Fix: client query file uploads and document downloads now work reliably
+- Action required: re-run the latest database setup script in the Supabase SQL Editor, then confirm Storage buckets per the README setup steps
 
 ### v1.1.02 (August 2026)
-- Feat: ManagerReviewPage full self-hosted implementation - Supabase-direct BAS summary + workpaper rows; approve advances to client_confirm; reject resets bas_draft + returns upstream
-- Feat: ClientConfirmPage full self-hosted implementation - Supabase-direct BAS summary + workpaper rows; confirm advances to certify; send back returns to manager_review
-- Feat: CertifyPage full self-hosted implementation - reads final/ JSON via signed URL; certify copies final/ to archived/ in Storage + archives case; return for revision returns to client_confirm
-- Full Partner workflow chain now operational in self-hosted mode: validate_gst - senior_review - senior_bas_review - manager_review - client_confirm - certify - archived
+- Feature: full Partner approval workflow (Manager Review → Client Confirm → Certify) now available in self-hosted mode
 
 *For earlier versions (v1.0.x), see [GitHub Releases](https://github.com/sweeper-acct/self-hosted/releases).*
