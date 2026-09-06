@@ -272,6 +272,9 @@ Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL
 
 ## Changelog
 
+### Database schema update (September 2026, no image version change)
+- Security: hardened `combined_schema.sql` — closed a gap where several RPC functions retained default public execute access; access is now correctly restricted to signed-in users only. **Existing installations should re-run `combined_schema.sql`** in the Supabase SQL Editor to pick up this fix (safe to re-run — fully idempotent).
+
 ### v1.1.98 (September 2026)
 - Update: Terms of Service and FAQ pricing wording refreshed
 
