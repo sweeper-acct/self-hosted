@@ -256,6 +256,25 @@ docker compose up -d frontend
 
 Confirm Supabase Auth **Site URL** and **Redirect URLs** match your frontend URL.
 
+**Supabase Security Advisor shows warnings after applying the schema**
+
+Some warnings are expected and don't need any action:
+
+- A few "Public can execute" warnings — these belong to the client magic-link
+  feature, where a client has no login account and proves identity with a
+  one-time token + password instead. Those functions must be reachable
+  without signing in by design.
+- Most "Signed-in users can execute" warnings — a number of functions run
+  with elevated database permissions so they can safely perform actions
+  across team boundaries (e.g. adding a team member, moving a client between
+  groups). Each one checks the caller's firm/team ownership before doing
+  anything, so the elevated permission is scoped to that single action.
+- "Leaked Password Protection Disabled" — a Supabase paid-plan feature,
+  unrelated to Sweeper.
+
+If you see a *different* warning not covered above, treat it as worth
+investigating.
+
 ---
 
 ## Support
